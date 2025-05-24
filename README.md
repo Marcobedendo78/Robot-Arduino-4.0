@@ -48,7 +48,7 @@
 ###
 # 🤖 Robot Tagliaerba Arduino 4.0
 
-Questo è un progetto DIY di un robot tagliaerba autonomo, basato su **Arduino Mega** come unità centrale di controllo, con vari microcontrollori e moduli per la gestione della navigazione, sensori, alimentazione e connettività Wi-Fi tramite MQTT.
+Questo è un progetto di un robot tagliaerba autonomo, basato su **Arduino Mega** come unità centrale di controllo, con vari microcontrollori e moduli per la gestione della navigazione, sensori, alimentazione e connettività Wi-Fi tramite MQTT.
 
 ## 📦 Componenti Elettronici
 
