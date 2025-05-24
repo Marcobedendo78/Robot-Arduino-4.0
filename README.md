@@ -124,3 +124,82 @@ Per domande o suggerimenti puoi aprire una issue o contattare direttamente [Marc
 ---
 
 > Queste modifiche migliorano la stabilità, la precisione e l'integrazione domotica del robot rasaerba.
+
+## ⚙️ Configurazione MQTT
+
+Il file `robot_arduino.yaml` include tutti i sensori e i comandi MQTT utilizzati da Home Assistant per interagire con il robot.
+
+📄 [Visualizza il file robot_arduino.yaml](./robot_arduino.yaml)
+
+Per integrarlo in Home Assistant:
+
+```yaml
+mqtt: !include robot_arduino.yaml
+```
+
+---
+
+## 🖥️ Dashboard Home Assistant – Controllo Robot
+
+Puoi controllare il robot tagliaerba direttamente da Home Assistant usando la dashboard interattiva inclusa nel file `robot_card.yaml`.
+
+📄 [Visualizza il file robot_card.yaml](./interface/robot_card.yaml)
+
+### ✅ Requisiti
+
+- Home Assistant configurato con MQTT
+- Plugin [button-card](https://github.com/custom-cards/button-card) installato via HACS
+
+### 🧭 Come usarla
+
+1. Vai su **Impostazioni → Dashboard → Modifica dashboard**
+2. Clicca su **Aggiungi scheda → Scheda Manuale**
+3. Incolla tutto il contenuto del file `robot_card.yaml`
+4. Salva!
+
+### 🕹️ Funzionalità della dashboard
+
+- Avvio e stop del robot
+- Uscita e rientro nella base
+- Modalità automatica/manuale
+- Comandi direzionali: avanti, indietro, sinistra, destra
+- Pulsanti colorati con icone intuitive
+
+## 📡 MQTT Topics utilizzati
+
+| Tipo         | Topic                                | Descrizione                     |
+|--------------|---------------------------------------|----------------------------------|
+| Stato batteria | `home/robot/mower/status/battery`    | Tensione in Volt                |
+| Parcheggio     | `home/robot/mower/status/parked`     | Parcheggiato o OFF              |
+| Taglio attivo  | `home/robot/mower/status/running`    | Stato taglio attivo             |
+| Carica         | `home/robot/mower/status/charge`     | In carica o OFF                 |
+| Comandi        | `home/robot/mower/control`           | Avvio, stop, movimento, ecc.    |
+
+## 📡 Integrazione con Home Assistant
+
+### 🧠 Configurazione Sensori MQTT
+
+È disponibile un file di configurazione `robot_arduino.yaml` che definisce tutti i sensori MQTT e i comandi per il controllo del robot tramite Home Assistant.
+
+📄 [Visualizza il file `robot_arduino.yaml`](./robot_arduino.yaml)
+
+Per integrarlo nel tuo Home Assistant, aggiungi questa riga al tuo `configuration.yaml`:
+
+```yaml
+mqtt: !include robot_arduino.yaml
+```
+
+Il file include sensori per:
+- Tensione batteria
+- Stato taglio, parcheggio, docking
+- Carica in corso
+- Tracciamento del filo perimetrale
+
+E switch per:
+- Avvia/stoppa il robot
+- Modalità manuale/automatica
+- Controlli direzionali manuali (avanti, indietro, destra, sinistra, stop)
+
+---
+
+Per suggerimenti o problemi con l'integrazione MQTT, sentiti libero di aprire una issue sul repository!

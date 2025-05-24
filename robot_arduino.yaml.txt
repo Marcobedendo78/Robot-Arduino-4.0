@@ -1,0 +1,120 @@
+################################################
+####                                        ####
+####            Robot Arduino 4.0           ####
+####                                        ####
+################################################
+
+mqtt:
+  sensor:
+    - name: "Robot Battery Voltage"
+      state_topic: "home/robot/mower/status/battery"
+      unit_of_measurement: "V"
+      value_template: >
+        {% set voltage = value | float %}
+        {% if voltage >= 12.0 and voltage <= 16.8 %}
+          {{ voltage | round(2) }}
+        {% else %}
+          {{ states('sensor.robot_battery_voltage') }}
+        {% endif %}
+
+    - name: "Robot Loop Cycle Mowing"
+      state_topic: "home/robot/mower/status/loop"
+      value_template: "{{ value }}"
+
+    - name: "Robot Mower Parked"
+      state_topic: "home/robot/mower/status/parked"
+      value_template: >
+        {% if value == '1' %}
+          PARCHEGGIATO
+        {% else %}
+          OFF
+        {% endif %}
+        
+    - name: "Robot Mower Docked"
+      state_topic: "home/robot/mower/status/docked"
+      value_template: >
+        {% if value == '1' %}
+          IN BASE
+        {% else %}
+          OFF
+        {% endif %}
+
+    - name: "Robot Mower Running"
+      state_topic: "home/robot/mower/status/running"
+      value_template: >
+        {% if value == '1' %}
+          FALCIATURA
+        {% else %}
+          OFF
+        {% endif %}
+
+    - name: "Robot Charge Detected"
+      state_topic: "home/robot/mower/status/charge"
+      value_template: >
+        {% if value == '4' %}
+          IN CARICA
+        {% else %}
+          OFF
+        {% endif %}
+
+    - name: "Robot Tracking Wire"
+      state_topic: "home/robot/mower/status/tracking"
+      value_template: >
+        {% if value == '1' %}
+          TRACCIATURA FILO
+        {% else %}
+          OFF
+        {% endif %}
+
+  switch:
+    - name: "Start Mower"
+      command_topic: "home/robot/mower/control"
+      payload_on: "start"
+      payload_off: "pause"
+
+    - name: "Pause Mower"
+      command_topic: "home/robot/mower/control"
+      payload_on: "pause"
+      payload_off: "start"
+
+    - name: "Dock Mower"
+      command_topic: "home/robot/mower/control"
+      payload_on: "dock"
+      payload_off: "start"
+
+    # Nuove aggiunte per la modalità manuale e automatica
+    - name: "Switch to Manual Mode"
+      command_topic: "home/robot/mower/control"
+      payload_on: "manuale"
+      payload_off: "automatico"
+
+    - name: "Switch to Automatic Mode"
+      command_topic: "home/robot/mower/control"
+      payload_on: "automatico"
+      payload_off: "manuale"
+
+    # Aggiunta dei comandi per il movimento manuale del robot
+    - name: "Move Mower Forward"
+      command_topic: "home/robot/mower/control"
+      payload_on: "avanti"
+      payload_off: "fermo"
+
+    - name: "Move Mower Backward"
+      command_topic: "home/robot/mower/control"
+      payload_on: "indietro"
+      payload_off: "fermo"
+
+    - name: "Turn Mower Right"
+      command_topic: "home/robot/mower/control"
+      payload_on: "destra"
+      payload_off: "fermo"
+
+    - name: "Turn Mower Left"
+      command_topic: "home/robot/mower/control"
+      payload_on: "sinistra"
+      payload_off: "fermo"
+
+    - name: "Stop Mower"
+      command_topic: "home/robot/mower/control"
+      payload_on: "fermo"
+      payload_off: "start"

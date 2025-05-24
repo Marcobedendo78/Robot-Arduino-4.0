@@ -1,0 +1,124 @@
+type: vertical-stack
+cards:
+  - type: horizontal-stack
+    cards:
+      - type: custom:button-card
+        name: Start
+        icon: mdi:play
+        color: green
+        show_state: true
+        tap_action:
+          action: call-service
+          service: mqtt.publish
+          service_data:
+            topic: home/robot/mower/control
+            payload: start
+      - type: custom:button-card
+        name: Stop
+        icon: mdi:stop
+        color: red
+        show_state: true
+        tap_action:
+          action: call-service
+          service: mqtt.publish
+          service_data:
+            topic: home/robot/mower/control
+            payload: pause
+      - type: custom:button-card
+        name: Exit Dock
+        icon: mdi:home-export-outline
+        color: blue
+        show_state: true
+        tap_action:
+          action: call-service
+          service: mqtt.publish
+          service_data:
+            topic: home/robot/mower/control
+            payload: Exit Dock
+      - type: custom:button-card
+        name: Dock
+        icon: mdi:home
+        color: purple
+        show_state: true
+        tap_action:
+          action: call-service
+          service: mqtt.publish
+          service_data:
+            topic: home/robot/mower/control
+            payload: dock
+  - type: horizontal-stack
+    cards:
+      - type: custom:button-card
+        name: Manual Mode
+        icon: mdi:gamepad
+        color: white
+        show_state: true
+        tap_action:
+          action: call-service
+          service: mqtt.publish
+          service_data:
+            topic: home/robot/mower/control
+            payload: manuale
+      - type: custom:button-card
+        name: Automatic Mode
+        icon: mdi:robot-mower
+        color: orange
+        show_state: true
+        tap_action:
+          action: call-service
+          service: mqtt.publish
+          service_data:
+            topic: home/robot/mower/control
+            payload: automatico
+  - type: vertical-stack
+    cards:
+      - type: horizontal-stack
+        cards:
+          - type: custom:button-card
+            name: Move Forward
+            icon: mdi:arrow-up-bold
+            color: white
+            show_state: true
+            tap_action:
+              action: call-service
+              service: mqtt.publish
+              service_data:
+                topic: home/robot/mower/control
+                payload: avanti
+      - type: horizontal-stack
+        cards:
+          - type: custom:button-card
+            name: Turn Left
+            icon: mdi:arrow-left-bold
+            color: white
+            show_state: true
+            tap_action:
+              action: call-service
+              service: mqtt.publish
+              service_data:
+                topic: home/robot/mower/control
+                payload: sinistra
+          - type: custom:button-card
+            name: Turn Right
+            icon: mdi:arrow-right-bold
+            color: white
+            show_state: true
+            tap_action:
+              action: call-service
+              service: mqtt.publish
+              service_data:
+                topic: home/robot/mower/control
+                payload: destra
+      - type: horizontal-stack
+        cards:
+          - type: custom:button-card
+            name: Move Backward
+            icon: mdi:arrow-down-bold
+            color: white
+            show_state: true
+            tap_action:
+              action: call-service
+              service: mqtt.publish
+              service_data:
+                topic: home/robot/mower/control
+                payload: indietro
