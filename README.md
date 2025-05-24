@@ -101,3 +101,26 @@ Il robot è in fase avanzata di sviluppo. Il codice è disponibile nella directo
 
 Per domande o suggerimenti puoi aprire una issue o contattare direttamente [Marco](https://github.com/Marcobedendo78).
 
+## 🆕 Aggiornamenti Maggio 2025
+
+### ✅ Integrazione NodeMCU con Home Assistant
+- Il firmware `NODEMCU_MQTT_v2` consente la comunicazione MQTT tra il robot e Home Assistant.
+- Le funzioni `TX_Functions.ino` e `Rx_Functions.ino` gestiscono l’invio e la ricezione dei comandi.
+
+### ✅ Controllo PID con Bussola
+- È stato aggiunto un sistema PID per mantenere la direzione di marcia del robot in modo preciso.
+- Nuova funzione: `Controllo_PID_Bussola(headingAttuale)`, integrata nelle manovre di taglio.
+- La direzione target (`targetHeading`) viene aggiornata dopo ogni manovra.
+
+### ✅ Migliorata lettura della bussola
+- Ottimizzata la funzione `Get_Compass_Reading()` per maggiore stabilità e precisione.
+- Ridotto il rumore con filtraggi e controlli aggiuntivi.
+
+### ✅ Menu per modificare i valori PID da display
+- Aggiunto nuovo menu interattivo per modificare i parametri `Kp`, `Ki`, `Kd` tramite pulsanti a membrana.
+- I valori vengono salvati in EEPROM.
+
+
+---
+
+> Queste modifiche migliorano la stabilità, la precisione e l'integrazione domotica del robot rasaerba.
