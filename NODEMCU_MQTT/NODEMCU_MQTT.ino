@@ -5,7 +5,6 @@
 // Definisci i pin e i parametri
 SoftwareSerial NodeMCU(D2, D3);  // RXD2 TXD3
 #define LED D4
-#define LED_BUILTIN D4
 
 // Credenziali WiFi
 const char* ssid = "FRITZ!Box 7590 WH";
