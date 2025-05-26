@@ -1,160 +1,213 @@
-
 void Motor_Action_Go_Mowing_Speed() {
-  
+
   // No Mag speed adjustment active just go full speed
-  if (MAG_Speed_Adjustment == 0) Motor_Action_Go_Full_Speed();  
-  
+  if (MAG_Speed_Adjustment == 0) Motor_Action_Go_Full_Speed();
+
   // Adjust wheel speed according to the MAG level
   if (MAG_Speed_Adjustment == 1) {
-          if (MAG_Now >= Slow_Speed_MAG) {
-            Motor_Action_Go_Full_Speed(); 
-            }
-        
-          if (MAG_Now < Slow_Speed_MAG)  {
-            Motor_Action_Go_Slow_Speed(); 
-            }
+    if (MAG_Now >= Slow_Speed_MAG) {
+      Motor_Action_Go_Full_Speed();
     }
+
+    if (MAG_Now < Slow_Speed_MAG) {
+      Motor_Action_Go_Slow_Speed();
+    }
+  }
 }
 
-void Motor_Action_Go_Full_Speed()     {
-      analogWrite(ENAPin, PWM_MaxSpeed_RH);                          // Velocità = 0-255  (255 è la velocità massima). La velocità è impostata nelle impostazioni
-      analogWrite(ENBPin, PWM_MaxSpeed_LH);                          // AnaolgWrite invia segnali PWM Velocità = 0-255  (255 è la velocità massima)
-      Serial.print(F("Wheel:FULL|"));
-      }  
+void Motor_Action_Go_Full_Speed() {
+  Wire.beginTransmission(ADDR_DX_MOTOR);
+  Wire.write(PWM_MaxSpeed_RH);
+  Wire.endTransmission();
+  Wire.beginTransmission(ADDR_SX_MOTOR);
+  Wire.write(PWM_MaxSpeed_LH);
+  Wire.endTransmission();
+  Serial.print(F("Wheel:FULL|"));
+}
 
-void Motor_Action_Go_Slow_Speed()     {
-      analogWrite(ENAPin,  PWM_Slow_Speed_RH);                       // Velocità = 0-255  (255 è la velocità massima). La velocità è impostata nelle impostazioni                        
-      analogWrite(ENBPin,  PWM_Slow_Speed_LH);                       // AnaolgWrite invia segnali PWM Velocità = 0-255  (255 è la velocità massima)
-      Serial.print(F("Wheel:SLOW|"));
-      }  
+void Motor_Action_Go_Slow_Speed() {
+  Wire.beginTransmission(ADDR_DX_MOTOR);
+  Wire.write(PWM_Slow_Speed_RH);
+  Wire.endTransmission();
+  Wire.beginTransmission(ADDR_SX_MOTOR);
+  Wire.write(PWM_Slow_Speed_LH);
+  Wire.endTransmission();
+  Serial.print(F("Wheel:SLOW|"));
+}
 
-void Motor_Action_Max_Slow_Speed()     {
-      analogWrite(ENAPin,  PWM_Max_Slow_Speed_RH);                   // Velocità = 0-255  (255 è la velocità massima). La velocità è impostata nelle impostazioni                        
-      analogWrite(ENBPin,  PWM_Max_Slow_Speed_LH);                   // AnaolgWrite invia segnali PWM Velocità = 0-255  (255 è la velocità massima)
-      Serial.print(F("Wheel:SLOW|"));
-      }
+void Motor_Action_Max_Slow_Speed() {
+  Wire.beginTransmission(ADDR_DX_MOTOR);
+  Wire.write(PWM_Max_Slow_Speed_RH);
+  Wire.endTransmission();
+  Wire.beginTransmission(ADDR_SX_MOTOR);
+  Wire.write(PWM_Max_Slow_Speed_LH);
+  Wire.endTransmission();
+  Serial.print(F("Wheel:SLOW|"));
+}
 
-void Motor_Action_Go_Accel()    {                                                     
-      for (int i = 0; i < 255; i ++){
-        analogWrite(ENAPin, i);
-        analogWrite(ENBPin, i);
-        delay(2);                                                    // Prima impostato a 3
-       }
-   }
+void Motor_Action_Go_Accel() {
+  for (int i = 0; i < 255; i++) {
+    Wire.beginTransmission(ADDR_DX_MOTOR);
+    Wire.write(i);
+    Wire.endTransmission();
+    Wire.beginTransmission(ADDR_SX_MOTOR);
+    Wire.write(i);
+    Wire.endTransmission();
+    delay(2);  // Prima impostato a 3
+  }
+}
 
-void Motor_Action_Go_Track_Speed()     {
-      analogWrite(ENAPin, PWM_TrackSpeed_RH);                          // Velocità = 0-255  (255 è la velocità massima). La velocità è impostata nelle impostazioni
-      analogWrite(ENBPin, PWM_TrackSpeed_LH);                          // AnaolgWrite invia segnali PWM Velocità = 0-255  (255 è la velocità massima)
-      Serial.print(F("Wheel:TRACK|"));
-      }
-   
+void Motor_Action_Go_Track_Speed() {
+  Wire.beginTransmission(ADDR_DX_MOTOR);
+  Wire.write(PWM_TrackSpeed_RH);
+  Wire.endTransmission();
+  Wire.beginTransmission(ADDR_SX_MOTOR);
+  Wire.write(PWM_TrackSpeed_LH);
+  Wire.endTransmission();
+  Serial.print(F("Wheel:TRACK|"));
+}
 
-void Motor_Action_GoFullSpeed_Out_Garage()     {
+
+void Motor_Action_GoFullSpeed_Out_Garage() {
   //Speeds can be changed to give the mower a slight curve when exiting the Garage.
-      analogWrite(ENAPin, PWM_Max_Slow_Speed_RH);                                       // Velocità lenta
-      analogWrite(ENBPin, PWM_Max_Slow_Speed_LH);   
-      Serial.print(F("Wheel:SLOW|"));
-      }
-
+  Wire.beginTransmission(ADDR_DX_MOTOR);
+  Wire.write(PWM_Max_Slow_Speed_RH);
+  Wire.endTransmission();
+  Wire.beginTransmission(ADDR_SX_MOTOR);
+  Wire.write(PWM_Max_Slow_Speed_LH);
+  Wire.endTransmission();
+  Serial.print(F("Wheel:SLOW|"));
+}
 
 // USed to turn the mower at a set speed.
 void Motor_Action_Turn_Speed() {
-     if ( (Accel_Speed_Adjustment == 0) ) {
-      analogWrite(ENAPin, (PWM_MaxSpeed_RH - Turn_Adjust) );                                  // Cambia il valore 0 in 10 o 20 per ridurre la velocità
-      analogWrite(ENBPin, (PWM_MaxSpeed_LH - Turn_Adjust) );                                  // Cambia il valore 0 in 10 o 20 per ridurre la velocità 
-        }
-        
-          if ( (Accel_Speed_Adjustment == 1) ) {
-            Motor_Action_Go_Accel(); 
-            }
-      }
-
-
-void SetPins_ToGoForwards()     {                                     // I pin del driver motore sono impostati per consentire a entrambi i motori di spostarsi in avanti.
-  digitalWrite(IN1Pin, LOW);                                          // I pin del driver motore sono impostati su alto o basso per impostare la direzione del movimento
-  digitalWrite(IN2Pin, HIGH);
-  digitalWrite(IN3Pin, LOW);
-  digitalWrite(IN4Pin, HIGH);
-  Serial.print(F("Wheel:For|"));
+  if ((Accel_Speed_Adjustment == 0)) {
+    Wire.beginTransmission(ADDR_DX_MOTOR);
+    Wire.write((PWM_MaxSpeed_RH - Turn_Adjust));
+    Wire.endTransmission();
+    Wire.beginTransmission(ADDR_SX_MOTOR);
+    Wire.write((PWM_MaxSpeed_LH - Turn_Adjust));
+    Wire.endTransmission();
   }
 
+  if ((Accel_Speed_Adjustment == 1)) {
+    Motor_Action_Go_Accel();
+  }
+}
 
-void SetPins_ToGoBackwards()      {                               // I pin del driver motore sono impostati per consentire a entrambi i motori di spostarsi indietro.
-  digitalWrite(IN1Pin, HIGH);                                     // Motor 1
-  digitalWrite(IN2Pin, LOW);
-  digitalWrite(IN3Pin, HIGH);                                     // Motor 2
-  digitalWrite(IN4Pin, LOW);
+void SetPins_ToGoForwards() {
+  char msg[2];
+  msg[0] = 0;  //speed
+  msg[1] = 1;  //direction
+  Wire.beginTransmission(ADDR_DX_MOTOR);
+  Wire.write(msg, sizeof(msg));
+  Wire.endTransmission();
+  Wire.beginTransmission(ADDR_SX_MOTOR);
+  Wire.write(msg, sizeof(msg));
+  Wire.endTransmission();
+  Serial.print(F("Wheel:For|"));
+}
+
+void SetPins_ToGoBackwards() {  // I pin del driver motore sono impostati per consentire a entrambi i motori di spostarsi indietro.
+  char msg[2];
+  msg[0] = 0;  //speed
+  msg[1] = 0;  //direction
+  Wire.beginTransmission(ADDR_DX_MOTOR);
+  Wire.write(msg, sizeof(msg));
+  Wire.endTransmission();
+  Wire.beginTransmission(ADDR_SX_MOTOR);
+  Wire.write(msg, sizeof(msg));
+  Wire.endTransmission();
   Serial.print(F("Wheel:Rev|"));
   delay(20);
-  }
+}
 
 
-void Motor_Action_Stop_Motors()  {                                 // I pin del driver motore sono impostati per consentire a entrambi i motori di stopparsi.
-  digitalWrite(ENAPin, 0);
-  digitalWrite(IN1Pin, LOW);                                       //Motor 1
-  digitalWrite(IN2Pin, LOW);
-
-  digitalWrite(ENBPin, 0);                                         //Motor 2
-  digitalWrite(IN3Pin, LOW);
-  digitalWrite(IN4Pin, LOW);
-
+void Motor_Action_Stop_Motors() {  // I pin del driver motore sono impostati per consentire a entrambi i motori di stopparsi.
+  Wire.beginTransmission(ADDR_DX_MOTOR);
+  Wire.write(0);
+  Wire.endTransmission();
+  Wire.beginTransmission(ADDR_SX_MOTOR);
+  Wire.write(0);
+  Wire.endTransmission();
   Serial.print(F("Wheel:0FF|"));
 }
 
 
-void SetPins_ToTurnLeft()       {                                  // I pin sono impostati in modo che i motori girino in direzioni opposte
-    digitalWrite(IN1Pin, LOW);                                     // Motor 1
-    digitalWrite(IN2Pin, HIGH);
-    digitalWrite(IN3Pin, HIGH);                                    // Motor 2
-    digitalWrite(IN4Pin, LOW);
-    Serial.print(F("Wheel:TL_|"));  
-    }
+void SetPins_ToTurnLeft() {  // I pin sono impostati in modo che i motori girino in direzioni opposte
+  char msg1[2], msg2[2];
+  msg1[0] = 0;  //speed
+  msg1[1] = 1;  //direction
+  Wire.beginTransmission(ADDR_DX_MOTOR);
+  Wire.write(msg1, sizeof(msg1));
+  Wire.endTransmission();
+  msg2[0] = 0;  //speed
+  msg2[1] = 0;  //direction
+  Wire.beginTransmission(ADDR_SX_MOTOR);
+  Wire.write(msg2, sizeof(msg2));
+  Wire.endTransmission();
+  Serial.print(F("Wheel:TL_|"));
+}
 
 
-void SetPins_ToTurnRight() {                                       // I pin sono impostati in modo che i motori girino in direzioni opposte
-      digitalWrite(IN1Pin, HIGH);                                  // Motor 1
-      digitalWrite(IN2Pin, LOW);
-      digitalWrite(IN3Pin, LOW);                                   //Motor 2
-      digitalWrite(IN4Pin, HIGH);
-      Serial.print(F("Wheel:R|"));
-      }
+void SetPins_ToTurnRight() {  // I pin sono impostati in modo che i motori girino in direzioni opposte
+  char msg1[2], msg2[2];
+  msg1[0] = 0;  //speed
+  msg1[1] = 0;  //direction
+  Wire.beginTransmission(ADDR_DX_MOTOR);
+  Wire.write(msg1, sizeof(msg1));
+  Wire.endTransmission();
+  msg2[0] = 0;  //speed
+  msg2[1] = 1;  //direction
+  Wire.beginTransmission(ADDR_SX_MOTOR);
+  Wire.write(msg2, sizeof(msg2));
+  Wire.endTransmission();
+  Serial.print(F("Wheel:R|"));
+}
 
 
 
 // Turns the mowing blades on
-void Motor_Action_Spin_Blades()  {
-  if (Cutting_Blades_Activate == 1) {                                       // Le lame sono accese nelle impostazioni e girano!
+void Motor_Action_Spin_Blades() {
+  if (Cutting_Blades_Activate == 1) {  // Le lame sono accese nelle impostazioni e girano!
     delay(20);
-    digitalWrite(R_EN, HIGH);
-    digitalWrite(L_EN, HIGH);
-    delay(20);
-    analogWrite(RPWM, PWM_Blade_Speed);
+    for (int i = 0; i++; i < NUM_BLADE) {
+      Wire.beginTransmission(ADDR_BLADE_MOTOR + i);
+      Wire.write(PWM_Blade_Speed);
+      Wire.endTransmission();
+    }
     delay(20);
     Serial.print(F("Blades:ON_|"));
-   }                 
+  }
 
-  if (Cutting_Blades_Activate == 0) {                                     // Le lame sono spente nelle impostazioni
+  if (Cutting_Blades_Activate == 0) {  // Le lame sono spente nelle impostazioni
     void StopSpinBlades();
-
   }
 }
 
-void Motor_Action_Stop_Spin_Blades()  {
+void Motor_Action_Stop_Spin_Blades() {
   delay(20);
-  digitalWrite(R_EN, LOW);
-  digitalWrite(L_EN, LOW);
+  for (int i = 0; i++; i < NUM_BLADE) {
+    Wire.beginTransmission(ADDR_BLADE_MOTOR + i);
+    Wire.write(0);
+    Wire.endTransmission();
+  }
   delay(20);
   Serial.print(F("Blades:0FF|"));
 }
 
 //Sterza il tosaerba in base all'ingresso PID dell'algoritmo
 void Motor_Action_Dynamic_PWM_Steering() {
-      analogWrite(ENAPin, PWM_Right);                             // ENA low = Sterzata a destra   ENB low = Sterzata a sinistra
-      analogWrite(ENBPin, PWM_Left);
-      Serial.print(F("PWM_R:"));
-      Serial.print(PWM_Right);
-      Serial.print(F("|"));
-      Serial.print(F("PWM_L:"));
-      Serial.print(PWM_Left);
-      Serial.print(F("|"));
+  Wire.beginTransmission(ADDR_DX_MOTOR);
+  Wire.write(PWM_Right);
+  Wire.endTransmission();
+  Wire.beginTransmission(ADDR_SX_MOTOR);
+  Wire.write(PWM_Left);
+  Wire.endTransmission();
+  Serial.print(F("PWM_R:"));
+  Serial.print(PWM_Right);
+  Serial.print(F("|"));
+  Serial.print(F("PWM_L:"));
+  Serial.print(PWM_Left);
+  Serial.print(F("|"));
 }

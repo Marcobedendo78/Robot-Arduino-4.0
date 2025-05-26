@@ -1,5 +1,5 @@
 void Check_Sonar_Sensors() {
-  
+
   // Ping Sonar sensors
 
   //Clears the Trig Pin
@@ -9,14 +9,13 @@ void Check_Sonar_Sensors() {
   delayMicroseconds(5);
   digitalWrite(trigPin3, LOW);
 
- // Pings each sonar at a 15ms interval
+  // Pings each sonar at a 15ms interval
 
- if (Sonar_2_Activate == 1) distance2 = PingSonarX(trigPin2, echoPin2, 2, 2, 2, 0, 0);         //SONAR2
- if (Sonar_1_Activate == 1) distance1 = PingSonarX(trigPin1, echoPin1, 1, 1, 1, 1, 0);         //SONAR1
- if (Sonar_3_Activate == 1) distance3 = PingSonarX(trigPin3, echoPin3, 3, 3, 3, 2, 0);         //SONAR3
+  if (Sonar_2_Activate == 1) distance2 = PingSonarX(trigPin2, echoPin2, 2, 2, 2, 0, 0);  //SONAR2
+  if (Sonar_1_Activate == 1) distance1 = PingSonarX(trigPin1, echoPin1, 1, 1, 1, 1, 0);  //SONAR1
+  if (Sonar_3_Activate == 1) distance3 = PingSonarX(trigPin3, echoPin3, 3, 3, 3, 2, 0);  //SONAR3
+}
 
- }
-  
 
 
 /* SONAR Function
@@ -61,56 +60,52 @@ int PingSonarX(int trigPinX, int echoPinX, int distanceX, long durationX, int so
   Serial.print(F("/"));
 
   /*If sonar distance is less than maximum distance then an object is registered to avoid*/
-  if (distanceX <= maxdistancesonar ) {
+  if (distanceX <= maxdistancesonar) {
     //Prints that Sonar X has detected an object to the Mower LCD.
-    lcd.setCursor(LCDRow, LCDColumn);                //sets location for text to be written
+    lcd.setCursor(LCDRow, LCDColumn);  //sets location for text to be written
     lcd.print("X");
     delay(10);
     if (sonarX == 1) {
-        Sonar_Hit_1_Total = (Sonar_Hit_1_Total + 1);
-        Serial.print(Sonar_Hit_1_Total);
-        }
-      if (sonarX == 2) {
-        Sonar_Hit_2_Total = (Sonar_Hit_2_Total + 1);
-        Serial.print(Sonar_Hit_2_Total);
-        }
-      if (sonarX == 3) {
-        Sonar_Hit_3_Total = (Sonar_Hit_3_Total + 1);
-        Serial.print(Sonar_Hit_3_Total);
-        }      
-    if ( (Sonar_Hit_1_Total == Max_Sonar_Hit) || (Sonar_Hit_2_Total == Max_Sonar_Hit) || (Sonar_Hit_3_Total == Max_Sonar_Hit) ) {
-      Sonar_Hit = 1; 
+      Sonar_Hit_1_Total = (Sonar_Hit_1_Total + 1);
+      Serial.print(Sonar_Hit_1_Total);
+    }
+    if (sonarX == 2) {
+      Sonar_Hit_2_Total = (Sonar_Hit_2_Total + 1);
+      Serial.print(Sonar_Hit_2_Total);
+    }
+    if (sonarX == 3) {
+      Sonar_Hit_3_Total = (Sonar_Hit_3_Total + 1);
+      Serial.print(Sonar_Hit_3_Total);
+    }
+    if ((Sonar_Hit_1_Total == Max_Sonar_Hit) || (Sonar_Hit_2_Total == Max_Sonar_Hit) || (Sonar_Hit_3_Total == Max_Sonar_Hit)) {
+      Sonar_Hit = 1;
       Print_Sonar_Hit();
       Serial.println("");
       Serial.println("Sonar Hit Detected");
-      }
-    
     }
+  }
 
   /*If sonar distance is greater than maximum distance then no object is registered to avoid*/
   if (distanceX > maxdistancesonar) {
     //Prints that the path of Sonar X is open.
-    lcd.setCursor(LCDRow, LCDColumn);                 //sets location for text to be written
+    lcd.setCursor(LCDRow, LCDColumn);  //sets location for text to be written
     lcd.print("_");
     delay(10);
     if (sonarX == 1) {
-        Sonar_Hit_1_Total = 0;
-        Serial.print(Sonar_Hit_1_Total);
-        }
-      if (sonarX == 2) {
-        Sonar_Hit_2_Total = 0;
-        Serial.print(Sonar_Hit_2_Total);
-        }
-      if (sonarX == 3) {
-        Sonar_Hit_3_Total = 0;
-        Serial.print(Sonar_Hit_3_Total);
-        }   
+      Sonar_Hit_1_Total = 0;
+      Serial.print(Sonar_Hit_1_Total);
     }
-   
+    if (sonarX == 2) {
+      Sonar_Hit_2_Total = 0;
+      Serial.print(Sonar_Hit_2_Total);
+    }
+    if (sonarX == 3) {
+      Sonar_Hit_3_Total = 0;
+      Serial.print(Sonar_Hit_3_Total);
+    }
+  }
+
 
   return distanceX;
   return sonarX;
-
-
-
 }

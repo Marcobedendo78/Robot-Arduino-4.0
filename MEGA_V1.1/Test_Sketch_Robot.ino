@@ -1,12 +1,12 @@
 
 /* Perimieter Wire Collision Motion
   ************************************************************************************/
-  void Test_Mower_Check_Wire()  {
-  
+void Test_Mower_Check_Wire() {
+
   ADCMan.run();
   // ADCMan.setCapture(pinPerimeterLeft, 1, 0);
 
-  if (millis() >= nextTime)  {
+  if (millis() >= nextTime) {
     nextTime = millis() + 50;
     if (perimeter.isInside(0) != inside) {
       inside = perimeter.isInside(0);
@@ -25,22 +25,20 @@
   Serial.println((perimeter.getFilterQuality(0)));
 
 
-  
-  lcd.setCursor(0,0);
+
+  lcd.setCursor(0, 0);
   lcd.print("IN/Out:");
-  lcd.setCursor(8,0);
+  lcd.setCursor(8, 0);
   lcd.print(perimeter.isInside(0));
-  lcd.setCursor(0,1);
+  lcd.setCursor(0, 1);
   lcd.print("MAG:");
-  lcd.setCursor(8,1);
-  lcd.print(perimeter.getMagnitude(0)); 
-
-
+  lcd.setCursor(8, 1);
+  lcd.print(perimeter.getMagnitude(0));
 }
 
 
 void Test_Relay() {
-  
+
   //digitalWrite(Relay_Motors, HIGH);
   //Serial.println("Relay OFF");
   //lcd.print("Relay OFF");
@@ -54,21 +52,21 @@ void Test_Relay() {
 }
 
 
-void Test_Wheel_Amps () {
-    Serial.println("Test Wheel Amps");
-    Turn_On_Relay();
-    delay(300);
-    SetPins_ToGoForwards();
-    Motor_Action_Go_Full_Speed();
-      for (int i = 0; i <= 100; i++) {
-        Read_Serial1_Nano(); 
-        Calculate_Wheel_Amps();
-        Test_Check_Wheel_Amps();             
-        Serial.println("");
-        }
-       
-         Motor_Action_Stop_Motors();
-         Turn_Off_Relay();
+void Test_Wheel_Amps() {
+  Serial.println("Test Wheel Amps");
+  Turn_On_Relay();
+  delay(300);
+  SetPins_ToGoForwards();
+  Motor_Action_Go_Full_Speed();
+  for (int i = 0; i <= 100; i++) {
+    Read_Nano();
+    Calculate_Wheel_Amps();
+    Test_Check_Wheel_Amps();
+    Serial.println("");
+  }
+
+  Motor_Action_Stop_Motors();
+  Turn_Off_Relay();
 }
 
 
@@ -78,182 +76,182 @@ void Test_Wheel_Motors() {
   delay(200);
   if (I == 1) {
 
-  lcd.clear();
-  lcd.setCursor(0,0);
-  lcd.print("ACCENSIONE RUOTE");
-  lcd.setCursor(1,0);
-  lcd.print("Test");
-  delay(1000);
-  lcd.clear();
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("ACCENSIONE RUOTE");
+    lcd.setCursor(1, 0);
+    lcd.print("Test");
+    delay(1000);
+    lcd.clear();
 
-  lcd.print("RIMUOVI TUTTE LE");
-  lcd.setCursor(0,1);
-  lcd.print("LAME!!!");
-  delay(1000);
-  lcd.clear();
-
-
-  lcd.print("<-- GIRA A SX");
-  delay(500);
-  SetPins_ToTurnLeft();
-  Motor_Action_Go_Full_Speed();
-  delay(1000);
-  Motor_Action_Stop_Motors();
-  delay(1000);
-  lcd.clear();
-
-  lcd.print("GIRA A DX -->");
-  delay(500);
-  SetPins_ToTurnRight();
-  Motor_Action_Go_Full_Speed();
-  delay(2000);
-  Motor_Action_Stop_Motors();
-  delay(1000);
-  lcd.clear();
-
-  lcd.print("AVANTI");
-  delay(500);
-  SetPins_ToGoForwards();
-  Motor_Action_Go_Full_Speed();
-  delay(1000);
-  Motor_Action_Stop_Motors(); 
-  delay(1000);
-  lcd.clear();
-
-  lcd.print("INDIETRO");
-  delay(500);
-  SetPins_ToGoBackwards();   
-  Motor_Action_Go_Full_Speed();
-  delay(1000);
-  Motor_Action_Stop_Motors();  
-  delay(1000);
-  lcd.clear();
-
-  lcd.clear();
-  lcd.setCursor(0,0);
-  lcd.print("DINAMICO");
-  lcd.setCursor(0,1);
-  PWM_Left = 120;
-  PWM_Right = 120;
-  lcd.print("SX:");
-  lcd.print(PWM_Left);
-  lcd.print("   DX:");
-  lcd.print(PWM_Right);
-  SetPins_ToGoForwards();
-  Motor_Action_Dynamic_PWM_Steering();
-  delay(2000);
-
-  
-  lcd.clear();
-  lcd.setCursor(0,1);  
-  PWM_Left = 255;
-  PWM_Right = 0;
-  lcd.print("SX:");
-  lcd.print(PWM_Left);
-  lcd.print("   DX:");
-  lcd.print(PWM_Right);
-  SetPins_ToGoForwards();
-  Motor_Action_Dynamic_PWM_Steering();
-
-  lcd.clear();
-  lcd.setCursor(0,1);
-  PWM_Left = 255;
-  PWM_Right = 0;
-  lcd.print("SX:");
-  lcd.print(PWM_Left);
-  lcd.print("   DX:");
-  lcd.print(PWM_Right);
-  SetPins_ToGoForwards();
-  Motor_Action_Dynamic_PWM_Steering();
-  delay(2000);
+    lcd.print("RIMUOVI TUTTE LE");
+    lcd.setCursor(0, 1);
+    lcd.print("LAME!!!");
+    delay(1000);
+    lcd.clear();
 
 
-  lcd.clear();
-  lcd.setCursor(0,1);  
-  PWM_Left = 150;
-  PWM_Right = 0;
-  lcd.print("SX:");
-  lcd.print(PWM_Left);
-  lcd.print("   DX:");
-  lcd.print(PWM_Right);
-  SetPins_ToGoForwards();
-  Motor_Action_Dynamic_PWM_Steering();
-  delay(2000);
-  
-  lcd.clear();
-  lcd.setCursor(0,1);  
-  PWM_Left = 255;
-  PWM_Right = 0;
-  lcd.print("SX:");
-  lcd.print(PWM_Left);
-  lcd.print("   DX:");
-  lcd.print(PWM_Right);
-  SetPins_ToGoForwards();
-  Motor_Action_Dynamic_PWM_Steering();
-  delay(2000);
+    lcd.print("<-- GIRA A SX");
+    delay(500);
+    SetPins_ToTurnLeft();
+    Motor_Action_Go_Full_Speed();
+    delay(1000);
+    Motor_Action_Stop_Motors();
+    delay(1000);
+    lcd.clear();
+
+    lcd.print("GIRA A DX -->");
+    delay(500);
+    SetPins_ToTurnRight();
+    Motor_Action_Go_Full_Speed();
+    delay(2000);
+    Motor_Action_Stop_Motors();
+    delay(1000);
+    lcd.clear();
+
+    lcd.print("AVANTI");
+    delay(500);
+    SetPins_ToGoForwards();
+    Motor_Action_Go_Full_Speed();
+    delay(1000);
+    Motor_Action_Stop_Motors();
+    delay(1000);
+    lcd.clear();
+
+    lcd.print("INDIETRO");
+    delay(500);
+    SetPins_ToGoBackwards();
+    Motor_Action_Go_Full_Speed();
+    delay(1000);
+    Motor_Action_Stop_Motors();
+    delay(1000);
+    lcd.clear();
 
     lcd.clear();
-  lcd.setCursor(0,1);  
-  PWM_Left = 255;
-  PWM_Right = 0;
-  lcd.print("SX:");
-  lcd.print(PWM_Left);
-  lcd.print("   DX:");
-  lcd.print(PWM_Right);
-  SetPins_ToGoForwards();
-  Motor_Action_Dynamic_PWM_Steering();
-
-  lcd.clear();
-  lcd.setCursor(0,1);
-  PWM_Left = 0;
-  PWM_Right = 255;
-  lcd.print("SX:");
-  lcd.print(PWM_Left);
-  lcd.print("   DX:");
-  lcd.print(PWM_Right);
-  SetPins_ToGoForwards();
-  Motor_Action_Dynamic_PWM_Steering();
-  delay(2000);
+    lcd.setCursor(0, 0);
+    lcd.print("DINAMICO");
+    lcd.setCursor(0, 1);
+    PWM_Left = 120;
+    PWM_Right = 120;
+    lcd.print("SX:");
+    lcd.print(PWM_Left);
+    lcd.print("   DX:");
+    lcd.print(PWM_Right);
+    SetPins_ToGoForwards();
+    Motor_Action_Dynamic_PWM_Steering();
+    delay(2000);
 
 
-  lcd.clear();
-  lcd.setCursor(0,1);  
-  PWM_Left = 0;
-  PWM_Right = 150;
-  lcd.print("SX:");
-  lcd.print(PWM_Left);
-  lcd.print("   DX:");
-  lcd.print(PWM_Right);
-  SetPins_ToGoForwards();
-  Motor_Action_Dynamic_PWM_Steering();
-  delay(2000);
-  
-  lcd.clear();
-  lcd.setCursor(0,1);  
-  PWM_Left = 0;
-  PWM_Right = 255;
-  lcd.print("SX:");
-  lcd.print(PWM_Left);
-  lcd.print("   DX:");
-  lcd.print(PWM_Right);
-  SetPins_ToGoForwards();
-  Motor_Action_Dynamic_PWM_Steering();
-  delay(2000);
+    lcd.clear();
+    lcd.setCursor(0, 1);
+    PWM_Left = 255;
+    PWM_Right = 0;
+    lcd.print("SX:");
+    lcd.print(PWM_Left);
+    lcd.print("   DX:");
+    lcd.print(PWM_Right);
+    SetPins_ToGoForwards();
+    Motor_Action_Dynamic_PWM_Steering();
 
-  
-  Motor_Action_Stop_Motors();  
-  delay(1000);
+    lcd.clear();
+    lcd.setCursor(0, 1);
+    PWM_Left = 255;
+    PWM_Right = 0;
+    lcd.print("SX:");
+    lcd.print(PWM_Left);
+    lcd.print("   DX:");
+    lcd.print(PWM_Right);
+    SetPins_ToGoForwards();
+    Motor_Action_Dynamic_PWM_Steering();
+    delay(2000);
 
-  lcd.clear();
-  lcd.print("TEST FINITO");
-  delay(1000);
-  lcd.clear();
 
-  I = 2;
+    lcd.clear();
+    lcd.setCursor(0, 1);
+    PWM_Left = 150;
+    PWM_Right = 0;
+    lcd.print("SX:");
+    lcd.print(PWM_Left);
+    lcd.print("   DX:");
+    lcd.print(PWM_Right);
+    SetPins_ToGoForwards();
+    Motor_Action_Dynamic_PWM_Steering();
+    delay(2000);
+
+    lcd.clear();
+    lcd.setCursor(0, 1);
+    PWM_Left = 255;
+    PWM_Right = 0;
+    lcd.print("SX:");
+    lcd.print(PWM_Left);
+    lcd.print("   DX:");
+    lcd.print(PWM_Right);
+    SetPins_ToGoForwards();
+    Motor_Action_Dynamic_PWM_Steering();
+    delay(2000);
+
+    lcd.clear();
+    lcd.setCursor(0, 1);
+    PWM_Left = 255;
+    PWM_Right = 0;
+    lcd.print("SX:");
+    lcd.print(PWM_Left);
+    lcd.print("   DX:");
+    lcd.print(PWM_Right);
+    SetPins_ToGoForwards();
+    Motor_Action_Dynamic_PWM_Steering();
+
+    lcd.clear();
+    lcd.setCursor(0, 1);
+    PWM_Left = 0;
+    PWM_Right = 255;
+    lcd.print("SX:");
+    lcd.print(PWM_Left);
+    lcd.print("   DX:");
+    lcd.print(PWM_Right);
+    SetPins_ToGoForwards();
+    Motor_Action_Dynamic_PWM_Steering();
+    delay(2000);
+
+
+    lcd.clear();
+    lcd.setCursor(0, 1);
+    PWM_Left = 0;
+    PWM_Right = 150;
+    lcd.print("SX:");
+    lcd.print(PWM_Left);
+    lcd.print("   DX:");
+    lcd.print(PWM_Right);
+    SetPins_ToGoForwards();
+    Motor_Action_Dynamic_PWM_Steering();
+    delay(2000);
+
+    lcd.clear();
+    lcd.setCursor(0, 1);
+    PWM_Left = 0;
+    PWM_Right = 255;
+    lcd.print("SX:");
+    lcd.print(PWM_Left);
+    lcd.print("   DX:");
+    lcd.print(PWM_Right);
+    SetPins_ToGoForwards();
+    Motor_Action_Dynamic_PWM_Steering();
+    delay(2000);
+
+
+    Motor_Action_Stop_Motors();
+    delay(1000);
+
+    lcd.clear();
+    lcd.print("TEST FINITO");
+    delay(1000);
+    lcd.clear();
+
+    I = 2;
   }
   digitalWrite(Relay_Motors, HIGH);
   delay(200);
-}     
+}
 
 
 
@@ -262,12 +260,12 @@ void Test_Mower_Blade_Motor() {
   digitalWrite(Relay_Motors, LOW);
   delay(200);
   lcd.print("MOTORE LAME");
-  lcd.setCursor(0,1);
+  lcd.setCursor(0, 1);
   lcd.print("TEST..!!");
   delay(1000);
   lcd.clear();
   lcd.print("RIMUOVI TUTTE LE");
-  lcd.setCursor(0,1);
+  lcd.setCursor(0, 1);
   lcd.print("LAME!!!");
   delay(4000);
   lcd.clear();
@@ -275,9 +273,9 @@ void Test_Mower_Blade_Motor() {
   lcd.print("MOTORE LAME");
   delay(500);
   Serial.println("LAME ACCESE");
-  lcd.setCursor(0,1);
+  lcd.setCursor(0, 1);
   lcd.print("ON ");
-  lcd.setCursor(6,1);
+  lcd.setCursor(6, 1);
   lcd.print("PWM =");
   lcd.print(PWM_Blade_Speed);
   Motor_Action_Spin_Blades();
@@ -288,7 +286,7 @@ void Test_Mower_Blade_Motor() {
   lcd.clear();
   Serial.println("Blades OFF");
   lcd.print("MOTORE LAME");
-  lcd.setCursor(0,1);
+  lcd.setCursor(0, 1);
   lcd.print("SPENTO..  ");
   Motor_Action_Stop_Spin_Blades();
   delay(2000);
@@ -297,11 +295,10 @@ void Test_Mower_Blade_Motor() {
 
   digitalWrite(Relay_Motors, HIGH);
   delay(200);
+}
 
-  }
 
-
-void Test_Sonar_Array()   {
+void Test_Sonar_Array() {
 
   //Clears the Trig Pin
   digitalWrite(trigPin1, LOW);
@@ -315,13 +312,13 @@ void Test_Sonar_Array()   {
    * Sonars are not fired in order to avoid reflections of sonar in the next sensor.
      distance# reurned (trigpin#, echopin#, distance#, duration#, Sonar#, LCDColumn#, LCD Row#)
    *********************************************************************************************/
-    if (Sonar_1_Activate) distance1 = PingSonarY(trigPin1, echoPin1, 1, 1, 1, 5, 0);          //SONAR1
-    delay(15);
-    if (Sonar_2_Activate) distance2 = PingSonarY(trigPin2, echoPin2, 2, 2, 2, 0, 0);         //SONAR2
-    delay(15);
-    if (Sonar_3_Activate) distance3 = PingSonarY(trigPin3, echoPin3, 3, 3, 3, 10, 0);          //SONAR3
-    delay(15);
-  }
+  if (Sonar_1_Activate) distance1 = PingSonarY(trigPin1, echoPin1, 1, 1, 1, 5, 0);  //SONAR1
+  delay(15);
+  if (Sonar_2_Activate) distance2 = PingSonarY(trigPin2, echoPin2, 2, 2, 2, 0, 0);  //SONAR2
+  delay(15);
+  if (Sonar_3_Activate) distance3 = PingSonarY(trigPin3, echoPin3, 3, 3, 3, 10, 0);  //SONAR3
+  delay(15);
+}
 
 
 
@@ -368,12 +365,12 @@ int PingSonarY(int trigPinY, int echoPinY, int distanceY, long durationY, int so
   //Serial.println(maxdistancesonar);
 
   /*If sonar distance is less than maximum distance then an object is registered to avoid*/
-  if (distanceY <= maxdistancesonar ) {
+  if (distanceY <= maxdistancesonar) {
     //Prints that Sonar X has detected an object to the Mower LCD.
-    lcd.setCursor(LCDRow, LCDColumn);                //sets location for text to be written
+    lcd.setCursor(LCDRow, LCDColumn);  //sets location for text to be written
     lcd.print("X");
-    LCDColumn = LCDColumn + 1;    
-    lcd.setCursor(LCDRow, LCDColumn);                //sets location for text to be written
+    LCDColumn = LCDColumn + 1;
+    lcd.setCursor(LCDRow, LCDColumn);  //sets location for text to be written
     lcd.print("   ");
     lcd.setCursor(LCDRow, LCDColumn);
     lcd.print(distanceY);
@@ -383,29 +380,27 @@ int PingSonarY(int trigPinY, int echoPinY, int distanceY, long durationY, int so
   /*If sonar distance is greater than maximum distance then no object is registered to avoid*/
   if (distanceY > 100) {
     //Prints that the path of Sonar X is open.
-    LCDColumn = LCDColumn - 1;   
-    lcd.setCursor(LCDRow, LCDColumn);                 //sets location for text to be written
+    LCDColumn = LCDColumn - 1;
+    lcd.setCursor(LCDRow, LCDColumn);  //sets location for text to be written
     lcd.print("_");
     delay(10);
   }
 
   return distanceY;
   return sonarY;
-
 }
 
 
 void Test_Compass_Turn_Function() {
-    digitalWrite(Relay_Motors, LOW);
-    delay(200);
-    SetPins_ToGoForwards();
-    Motor_Action_Go_Full_Speed();
-    delay(2000);
-    Manouver_Turn_Around();
-    Turn_To_Compass_Heading();
-    SetPins_ToGoForwards();
-    Motor_Action_Go_Full_Speed();
-    delay(2000); 
-    digitalWrite(Relay_Motors, HIGH);
-    }
-  
+  digitalWrite(Relay_Motors, LOW);
+  delay(200);
+  SetPins_ToGoForwards();
+  Motor_Action_Go_Full_Speed();
+  delay(2000);
+  Maneuver_Turn_Around();
+  Turn_To_Compass_Heading();
+  SetPins_ToGoForwards();
+  Motor_Action_Go_Full_Speed();
+  delay(2000);
+  digitalWrite(Relay_Motors, HIGH);
+}
