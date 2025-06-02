@@ -415,10 +415,8 @@ void Manouver_Park_The_Mower() {
 
   // ✅ Mostra stato sul display con riga superiore vuota
   lcd.clear();
-  lcd.setCursor(0, 0);
-  lcd.print("                ");
   lcd.setCursor(0, 1);
-  lcd.print("Parcheggiato    ");
+  lcd.print("  Parcheggiato  ");
 }
 
 
