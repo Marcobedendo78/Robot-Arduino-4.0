@@ -65,6 +65,7 @@ void Special_Exit_From_Docking_Station() {
 }
 
 
+// Avvia un algoritmo per ritrovare il filo dopo averlo perso nel tracciamento
 void Specials_Find_Wire_Track() {
   Serial.println("");
   Serial.println(F("Lost Mower - find wire Track"));
@@ -74,6 +75,7 @@ void Specials_Find_Wire_Track() {
 
   Abort_Wire_Find = 0;
   Wire_Find_Attempt = 0;
+  Outside_Wire_Count = 0;
 
   for (int i = 0; i <= 1; i++) {
     Serial.print(F("Position Try = "));
@@ -146,6 +148,7 @@ void Specials_Find_Wire_Track() {
         Check_Bumper();
         ADCMan.run();
         UpdateWireSensor();  // inside aggiornato qui
+        Check_Wire_In_Out();
         PrintBoundaryWireStatus();
 
         if ((WIFI_Enabled == 1) && (Manuel_Mode == 0)) Get_WIFI_Commands();
@@ -168,14 +171,13 @@ void Specials_Find_Wire_Track() {
       Motor_Action_Stop_Motors();
       delay(1000);
     }
-
-    // ❌ Se dopo entrambi i tentativi il filo non è stato trovato → parcheggia
-    if (!inside || Wire_Find_Attempt >= 100 || Abort_Wire_Find) {
-      Serial.println(F("Wire not found or operation aborted → Parking robot"));
-      Motor_Action_Stop_Motors();
-      Manouver_Park_The_Mower();
-      return;
-    }
+    // ❌ Se il robot è stato troppo tempo fuori dal perimetro, ha fallito la ricerca o è stato interrotto → parcheggia
+   if (Outside_Wire_Count >= Outside_Wire_Count_Max || Wire_Find_Attempt >= 100 || Abort_Wire_Find) {
+     Serial.println(F("Wire not found or operation aborted → Parking robot"));
+     Motor_Action_Stop_Motors();
+     Manouver_Park_The_Mower();
+     return;
+   }
 
     Motor_Action_Stop_Motors();
     Loop_Cycle_Mowing = 0;
