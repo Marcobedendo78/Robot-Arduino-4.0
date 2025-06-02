@@ -6,41 +6,41 @@ Questo progetto include un PCB personalizzato progettato per rendere l’install
 
 ## 📦 Componenti da assemblare
 
-![Componenti](https://github.com/Marcobedendo78/Robot-Arduino-4.0/raw/main/img/20250508_174329.jpg)
+![Componenti](https://github.com/Marcobedendo78/Robot-Arduino-4.0/raw/main/Img/20250508_174329.jpg)
 
 ---
 
 ## 🧩 Dettaglio PCB principale
 
-![PCB parziale](https://github.com/Marcobedendo78/Robot-Arduino-4.0/raw/main/img/20250508_175606.jpg)
-![Misurazione 5V](https://github.com/Marcobedendo78/Robot-Arduino-4.0/raw/main/img/20250508_175658.jpg)
+![PCB parziale](https://github.com/Marcobedendo78/Robot-Arduino-4.0/raw/main/Img/20250508_175606.jpg)
+![Misurazione 5V](https://github.com/Marcobedendo78/Robot-Arduino-4.0/raw/main/Img/20250508_175658.jpg)
 
 ---
 
 ## 🔧 PCB Assemblato
 
-![PCB completo](https://github.com/Marcobedendo78/Robot-Arduino-4.0/raw/main/img/20250508_194420.jpg)
-![Retro PCB](https://github.com/Marcobedendo78/Robot-Arduino-4.0/raw/main/img/20250508_194433.jpg)
+![PCB completo](https://github.com/Marcobedendo78/Robot-Arduino-4.0/raw/main/Img/20250508_194420.jpg)
+![Retro PCB](https://github.com/Marcobedendo78/Robot-Arduino-4.0/raw/main/Img/20250508_194433.jpg)
 
 ---
 
 ## 🧠 Dettaglio moduli installati
 
-![Moduli montati](https://github.com/Marcobedendo78/Robot-Arduino-4.0/raw/main/img/20250530_201129.jpg)
-![Zoom bussola](https://github.com/Marcobedendo78/Robot-Arduino-4.0/raw/main/img/20250531_141824.jpg)
-![Montaggio inclinato](https://github.com/Marcobedendo78/Robot-Arduino-4.0/raw/main/img/20250531_142255.jpg)
+![Moduli montati](https://github.com/Marcobedendo78/Robot-Arduino-4.0/raw/main/Img/20250530_201129.jpg)
+![Zoom bussola](https://github.com/Marcobedendo78/Robot-Arduino-4.0/raw/main/Img/20250531_141824.jpg)
+![Montaggio inclinato](https://github.com/Marcobedendo78/Robot-Arduino-4.0/raw/main/Img/20250531_142255.jpg)
 
 ---
 
 ## 🔌 Montaggio nel robot
 
-![PCB nel robot](https://github.com/Marcobedendo78/Robot-Arduino-4.0/raw/main/img/20250531_152122.jpg)
+![PCB nel robot](https://github.com/Marcobedendo78/Robot-Arduino-4.0/raw/main/Img/20250531_152122.jpg)
 
 ---
 
 ## 📐 PCB aggiuntivi
 
-![PCB supplementari](https://github.com/Marcobedendo78/Robot-Arduino-4.0/raw/main/img/20250602_152717.jpg)
+![PCB supplementari](https://github.com/Marcobedendo78/Robot-Arduino-4.0/raw/main/Img/20250602_152717.jpg)
 
 ---
 
@@ -49,7 +49,7 @@ Questo progetto include un PCB personalizzato progettato per rendere l’install
 Questo è il piccolo PCB da montare **nella scocca centrale**.  
 Serve a **distribuire il 5V e GND** a tutti i sensori frontali, evitando di portare cavi separati da dietro:
 
-![PCB 5V nella scocca](https://github.com/Marcobedendo78/Robot-Arduino-4.0/raw/main/img/20250517_190916.jpg)
+![PCB 5V nella scocca](https://github.com/Marcobedendo78/Robot-Arduino-4.0/raw/main/Img/20250517_190916.jpg)
 
 ---
 
