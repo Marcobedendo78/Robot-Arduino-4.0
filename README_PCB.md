@@ -72,7 +72,7 @@ Inoltre, ho disegnato un piccolo PCB per adattare i moduli NodeMCU8266 di dimens
 5. Solo dopo questo step, procedere con la saldatura di tutti gli altri componenti (dal più basso al più alto).
 6. Sul lato opposto vanno saldati:
    - i pin header per la bussola **GY-271**
-   - il modulo **GY-521** (gyro)
+7. Sul lato superiore sui pin della bussola **GY-271** va saldato il modulo **GY-521** (Gyro)
 
 ⚠️ **Attenzione**: se non regoli i 5V prima di completare la saldatura, rischi di danneggiare tutti i moduli installati!
 
