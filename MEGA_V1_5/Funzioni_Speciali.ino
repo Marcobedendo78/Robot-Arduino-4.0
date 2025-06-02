@@ -99,7 +99,7 @@ void Specials_Find_Wire_Track() {
       lcd.print("Ricerca Filo");
       delay(100);
 
-      while (!inside && Wire_Find_Attempt < 100 && !Abort_Wire_Find) {
+      while (!inside && Wire_Find_Attempt < 200 && !Abort_Wire_Find) {
         Motor_Action_Go_Slow_Speed();
         ADCMan.run();
         UpdateWireSensor();  // inside aggiornato qui
@@ -143,7 +143,7 @@ void Specials_Find_Wire_Track() {
       lcd.print(F("Ricerca Filo"));
       delay(100);
 
-      while (inside && Wire_Find_Attempt < 100 && !Abort_Wire_Find) {
+      while (inside && Wire_Find_Attempt < 200 && !Abort_Wire_Find) {
         Motor_Action_Go_Slow_Speed();
         Check_Bumper();
         ADCMan.run();
@@ -172,7 +172,7 @@ void Specials_Find_Wire_Track() {
       delay(1000);
     }
     // ❌ Se il robot è stato troppo tempo fuori dal perimetro, ha fallito la ricerca o è stato interrotto → parcheggia
-   if (Outside_Wire_Count >= Outside_Wire_Count_Max || Wire_Find_Attempt >= 100 || Abort_Wire_Find) {
+   if (Outside_Wire_Count >= Outside_Wire_Count_Max || Wire_Find_Attempt >= 200 || Abort_Wire_Find) {
      Serial.println(F("Wire not found or operation aborted → Parking robot"));
      Motor_Action_Stop_Motors();
      Manouver_Park_The_Mower();
