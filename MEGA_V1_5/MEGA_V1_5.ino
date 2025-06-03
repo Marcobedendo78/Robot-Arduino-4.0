@@ -413,10 +413,7 @@ DS1302 rtc(kCePin, kIoPin, kSclkPin);
   bool CCW_Tracking_To_Charge     = 1;      //EEPROM            // Tracciamento in senso antiorario attorno al cavo perimetrale fino alla stazione di ricarica
   bool CW_Tracking_To_Start       = 1;      //EEPROM            // Tracciamento in senso orario attorno al cavo perimetrale durante il tracciamento fino alla posizione iniziale
   bool CCW_Tracking_To_Start      = 0;      //EEPROM            // Tracciamento in senso antiorario attorno al cavo perimetrale fino alla stazione di ricarica
-  byte Docked_Filter_Hits         = 1;                          // Numero di segnali di carica da rilevare prima che il rasaerba si spenga
-  bool was_cutting_before_park    = false;                      // Quando il robot si parcheggia durante una procedura di ricerca filo. NON MODIFICARE
-
-
+  
 
   // Tracciatura Filo
   int Track_Wire_Zone_1_Cycles    = 700;    //EEPROM            // Zona 1 - Numero di iterazioni eseguite dalla funzione PID prima che il rasaerba esca dalla tracciatura del filo perimetrale
@@ -712,7 +709,7 @@ if ((Mower_Running == 1) && (Wire_Detected == 1) && (Outside_Wire == 0) && (RPLI
 // WIFI Comandi da e verso APP
 if (Manuel_Mode == 1) Receive_WIFI_Manuel_Commands();
 if (Manuel_Mode == 1) Print_LCD_Info_Manuel();
-if (Manuel_Mode == 0) Get_WIFI_Commands();                                   // Dati TX e RX da NodeMCU
+if (Manuel_Mode == 0) Get_WIFI_Commands();                                  // Dati TX e RX da NodeMCU
 
 Serial.println(); 
   

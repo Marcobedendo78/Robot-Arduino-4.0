@@ -380,20 +380,12 @@ void Manouver_Park_The_Mower_Low_Batt() {
 // Il tagliaerba è in una posizione parcheggiata o in pausa pronto per il riavvio
 void Manouver_Park_The_Mower() {
 
-  if (Mower_Parked == 0 ) lcd.clear();
-
   // Se era in ricerca filo, annullo quella modalità
   if (Tracking_Wire == 1 || Mower_Track_To_Exit == 1 || Mower_Track_To_Charge == 1) {
     Serial.println(F("Annullamento ricerca filo o tracking in corso"));
     Tracking_Wire = 0;
     Mower_Track_To_Exit = 0;
     Mower_Track_To_Charge = 0;
-  }
-
-  // Se stava tagliando, salvo lo stato per poter ripartire da Home Assistant
-  if (Mower_Running == 1) {
-    was_cutting_before_park = true;
-    Serial.println(F("Salvato stato: stava tagliando prima del parcheggio"));
   }
 
   Mower_Docked          = 0;

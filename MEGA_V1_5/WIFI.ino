@@ -172,13 +172,12 @@ void Execute_MQTT_Command_To_Mower() {
     lcd.print("Modello");
     delay(200);
     lcd.clear();
-   // if (Mower_Running == 0) {
-   //   Manouver_Park_The_Mower(); 
-   //   Turn_On_Relay(); 
-   // }
+    if (Mower_Running == 0) {
+      Manouver_Park_The_Mower(); 
+    }
     Manuel_Mode = 0;
     Manouver_Park_The_Mower();
-    Turn_On_Relay();
+    //Turn_On_Relay();
     Pattern_Mow = 0;
     val_WIFI = 0;  // Reset per eseguire il comando solo una volta
   }
@@ -229,4 +228,20 @@ void Execute_Manuel_MQTT_Command_To_Mower() {
     Motor_Action_Stop_Motors();
     val_WIFI = 0;   // Reset per eseguire il comando solo una volta
   }
+  
+   // Esegui il comando "Pause/Stop" (comando 11)
+  if (val_WIFI == 11) {
+   Serial.println("");
+   Serial.print(F("WIFI Command: "));
+   Serial.print(val_WIFI);
+   Serial.println(F(" | Pause/Stop"));
+
+   // 🛑 Ferma immediatamente motori e lama
+   Motor_Action_Stop_Spin_Blades();
+   Motor_Action_Stop_Motors();
+
+   // 🅿️ Parcheggia
+   Manouver_Park_The_Mower();
+   val_WIFI = 0;  // Reset per eseguire il comando solo una volta
+ }
 }

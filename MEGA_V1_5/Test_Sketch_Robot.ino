@@ -311,8 +311,8 @@ void Test_Sonar_Array()   {
   digitalWrite(trigPin3, LOW);
 
 
-  /*Fires all Sonars to detect objects ahead...
-   * Sonars are not fired in order to avoid reflections of sonar in the next sensor.
+  /*Attiva tutti i sonar per rilevare oggetti davanti a te...
+* I sonar non vengono attivati ​​per evitare riflessi nel sensore successivo.
      distance# reurned (trigpin#, echopin#, distance#, duration#, Sonar#, LCDColumn#, LCD Row#)
    *********************************************************************************************/
     if (Sonar_1_Activate) distance1 = PingSonarY(trigPin1, echoPin1, 1, 1, 1, 5, 0);          //SONAR1
@@ -329,28 +329,28 @@ void Test_Sonar_Array()   {
 
 /* SONAR Function
 ************************************************************************************/
-// Function to Ping the Sonar calculate the distance from Object to the Sonars.
-// Distance calculated is printed to serial printer and displays X or _ on the LCD Screen
-// Distance calculated is then used for the object avoidance logic
-// Sonars used can be activated in the settings.
+// Funzione per inviare un segnale al sonar e calcolare la distanza tra l'oggetto e il sonar.
+// La distanza calcolata viene stampata su una stampante seriale e visualizzata con X o _ sullo schermo LCD.
+// La distanza calcolata viene quindi utilizzata per la logica di evitamento dell'oggetto.
+// I sonar utilizzati possono essere attivati ​​nelle impostazioni.
 
 int PingSonarY(int trigPinY, int echoPinY, int distanceY, long durationY, int sonarY, int LCDRow, int LCDColumn) {
   pinMode(trigPinY, OUTPUT);
   pinMode(echoPinY, INPUT);
-  //Sets the trigPin at High state for 10 micro secs sending a sound wave
+  //Imposta il trigPin allo stato alto per 10 micro secondi inviando un'onda sonora
   digitalWrite(trigPinY, HIGH);
   digitalWrite(trigPinY, LOW);
   delayMicroseconds(10);
 
-  /*Reads the echoPin for the bounced wave and records the time in microseconds*/
+  /*Legge l'echoPin per l'onda rimbalzata e registra il tempo in microsecondi*/
   durationY = pulseIn(echoPinY, HIGH);
 
-  /*Calculates the distance in cm based on the measured time*/
+  /*Calcola la distanza in cm in base al tempo misurato*/
   distanceY = durationY * 0.034 / 2;
   delay(5);
 
-  /* If a 0 distance is measured normally the Sonar ping has not been received.
-    distance is then set to 999cm so the missed ping is not seen as an object detected.*/
+  /* Se viene misurata una distanza pari a 0, il ping del sonar non è stato ricevuto.
+  La distanza viene quindi impostata a 999 cm in modo che il ping mancante non venga visualizzato come un oggetto rilevato..*/
   if (distanceY == 0) {
     distanceY = 999;
     Serial.print(F("SONAR "));
@@ -359,7 +359,7 @@ int PingSonarY(int trigPinY, int echoPinY, int distanceY, long durationY, int so
     Serial.println(F("NO PING ERROR REMOVED"));
   }
 
-  /*Prints the Sonar letter and distance measured on the serial Monitor*/
+  /*Stampa la lettera del sonar e la distanza misurata sul monitor seriale*/
   Serial.print(F("SONAR "));
   Serial.print(sonarY);
   Serial.print(": ");
@@ -367,7 +367,7 @@ int PingSonarY(int trigPinY, int echoPinY, int distanceY, long durationY, int so
   Serial.println(F(" cm"));
   //Serial.println(maxdistancesonar);
 
-  /*If sonar distance is less than maximum distance then an object is registered to avoid*/
+  /*Se la distanza del sonar è inferiore alla distanza massima, viene registrato un oggetto da evitare*/
   if (distanceY <= maxdistancesonar ) {
     //Prints that Sonar X has detected an object to the Mower LCD.
     lcd.setCursor(LCDRow, LCDColumn);                //sets location for text to be written
@@ -380,9 +380,9 @@ int PingSonarY(int trigPinY, int echoPinY, int distanceY, long durationY, int so
     delay(10);
   }
 
-  /*If sonar distance is greater than maximum distance then no object is registered to avoid*/
+  /*Se la distanza del sonar è maggiore della distanza massima, non viene registrato alcun oggetto da evitare*/
   if (distanceY > 100) {
-    //Prints that the path of Sonar X is open.
+    //Indica che il percorso del Sonar X è aperto.
     LCDColumn = LCDColumn - 1;   
     lcd.setCursor(LCDRow, LCDColumn);                 //sets location for text to be written
     lcd.print("_");

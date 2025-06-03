@@ -64,123 +64,123 @@ void Special_Exit_From_Docking_Station() {
   }
 }
 
-
 // Avvia un algoritmo per ritrovare il filo dopo averlo perso nel tracciamento
-void Specials_Find_Wire_Track() {
-  Serial.println("");
+void Specials_Find_Wire_Track()  {
+
+ Serial.println("");
   Serial.println(F("Lost Mower - find wire Track"));
   lcd.clear();
-  lcd.print("Ricerca filo...");
+  lcd.print("Ricerca filo... ");
+  //Motor_Action_Stop_Spin_Blades();                                                          // Disattivato per prova 27/09/2022
   delay(5);
-
   Abort_Wire_Find = 0;
-  Wire_Find_Attempt = 0;
-  Outside_Wire_Count = 0;
+  //No_Wire_Found = 0;
+ // TestforBoundaryWire();                                                                    // Check to see that the wire is on.
 
   for (int i = 0; i <= 1; i++) {
+    if (WIFI_Enabled == 1) Get_WIFI_Commands();
     Serial.print(F("Position Try = "));
     Serial.println(i);
-
-    ADCMan.run();
-    UpdateWireSensor();  // aggiorna inside
-    delay(40);
-
-    // 🔙 Se è fuori dal filo, prova ad andare indietro
-    if (!inside) {
-      Serial.println("Reversing to find the wire");
-      Motor_Action_Stop_Motors();
-      Loop_Cycle_Mowing = 0;
-      delay(1000);
-
-      SetPins_ToGoBackwards();
-      lcd.clear();
-      lcd.print("Prova indietro...");
-      lcd.setCursor(0, 1);
-      lcd.print("Ricerca Filo");
-      delay(100);
-
-      while (!inside && Wire_Find_Attempt < 200 && !Abort_Wire_Find) {
-        Motor_Action_Go_Slow_Speed();
-        ADCMan.run();
-        UpdateWireSensor();  // inside aggiornato qui
-        PrintBoundaryWireStatus();
-
-        if ((WIFI_Enabled == 1) && (Manuel_Mode == 0)) Get_WIFI_Commands();
-
-        Wire_Find_Attempt++;
-        Serial.print(F("No Wire Count Backwards: "));
-        Serial.println(Wire_Find_Attempt);
-
-        if (Wheel_Blocked == 4) {
-          Motor_Action_Stop_Motors();
-          SetPins_ToGoBackwards();
-          Motor_Action_Go_Accel();
-          delay(Mower_Reverse_Delay);
-          Motor_Action_Stop_Motors();
-          Bumper = false;
-          delay(1000);
-        }
-      }
-
-      Motor_Action_Stop_Motors();
-      delay(1000);
-    }
-
-    // 🔛 Se è dentro al filo, prova ad avanzare per allinearsi
-    Wire_Find_Attempt = 0;
     ADCMan.run();
     UpdateWireSensor();
+    delay(40);
+    ADCMan.run();
+    UpdateWireSensor();
+    delay(40);
+    PrintBoundaryWireStatus();
+    //No_Wire_Found = 0;
+    Wire_Find_Attempt = 0;  
 
-    if (inside) {
-      Serial.println(F("Moving Forwards to find the wire"));
-      Motor_Action_Stop_Motors();
+    // Per prima cosa andare indietro se il tagliaerba è fuori dal cavo
+    if ( inside == false) {                                    // If the mower is outside the wire then run the following code.
+      Serial.println("Reversing to find the wire");
+      ADCMan.run();
+      UpdateWireSensor();
+      PrintBoundaryWireStatus();
+      Motor_Action_Stop_Motors();                                                           // Stop all wheel motion
+      Loop_Cycle_Mowing = 0;
       delay(1000);
-
-      SetPins_ToGoForwards();
-      lcd.clear();
-      lcd.print("Prova avanti...");
-      lcd.setCursor(0, 1);
-      lcd.print(F("Ricerca Filo"));
+      SetPins_ToGoBackwards();                                                              // Set the mower to back up
       delay(100);
-
-      while (inside && Wire_Find_Attempt < 200 && !Abort_Wire_Find) {
-        Motor_Action_Go_Slow_Speed();
-        Check_Bumper();
+      lcd.clear();
+      lcd.print("Prova indietro...  ");
+      lcd.setCursor(0,1);
+      lcd.print("Ricerca Filo  ");
+      delay(100);
+      
+      // Mentre il tagliaerba è ancora fuori dal cavo perimetrale, esegui questo codice a meno che non arrivi il segnale di interruzione dall'APP o finisca i tentativi.
+      while (( inside != true) && (Wire_Find_Attempt < 100) ){
+        Motor_Action_Go_Slow_Speed();                                                       // Go full speed (in this case backwards)
+        UpdateWireSensor();                                                                 // Read the wire sensor and see of the mower is now  or outside the wire
         ADCMan.run();
-        UpdateWireSensor();  // inside aggiornato qui
-        Check_Wire_In_Out();
-        PrintBoundaryWireStatus();
-
-        if ((WIFI_Enabled == 1) && (Manuel_Mode == 0)) Get_WIFI_Commands();
-
-        Wire_Find_Attempt++;
-        Serial.print(F("No Wire Count Forwards: "));
-        Serial.println(Wire_Find_Attempt);
-
-        if (Wheel_Blocked == 4) {
-          Motor_Action_Stop_Motors();
-          SetPins_ToGoForwards();
-          Motor_Action_Go_Accel();
-          delay(Mower_Reverse_Delay);
-          Motor_Action_Stop_Motors();
-          Bumper = false;
-          delay(2000);
+        PrintBoundaryWireStatus();                                                          // Prints of the status of the wire sensor readings.
+        Serial.println("");
+        if (WIFI_Enabled == 1) Get_WIFI_Commands();
+        Wire_Find_Attempt = Wire_Find_Attempt + 1;                                                      // Counts how many loops have passed to find the wire.
+        Serial.print(F("No Wire Count Backwards:"));
+        Serial.print(Wire_Find_Attempt);
+        Serial.print("|");
         }
+
+          if (Wheel_Blocked == 4) {
+            Motor_Action_Stop_Motors();
+            SetPins_ToGoBackwards();
+            Motor_Action_Go_Accel();
+            delay(Mower_Reverse_Delay);
+            Motor_Action_Stop_Motors();
+            Bumper = false; 
+            delay(100);
+            }
+            
       }
-
+      
       Motor_Action_Stop_Motors();
-      delay(1000);
-    }
-    // ❌ Se il robot è stato troppo tempo fuori dal perimetro, ha fallito la ricerca o è stato interrotto → parcheggia
-   if (Outside_Wire_Count >= Outside_Wire_Count_Max || Wire_Find_Attempt >= 200 || Abort_Wire_Find) {
-     Serial.println(F("Wire not found or operation aborted → Parking robot"));
-     Motor_Action_Stop_Motors();
-     Manouver_Park_The_Mower();
-     return;
-   }
+      delay(5);
+      }
+    
+    Wire_Find_Attempt = 0; 
+    // Codice per andare avanti fino a quando il rasaerba si trova all'esterno / sul cavo
+    if ( inside == true) {             // If the Mower is situated  the wire then run the following code.
+        Serial.println(F("Moving Forwards to find the wire"));
+        ADCMan.run();
+        UpdateWireSensor();
+        Serial.println(F("CODE POSITION - MOTOR FORWARDS LOOP:  If statements"));
+        PrintBoundaryWireStatus();
+        Motor_Action_Stop_Motors();
+        delay(1000);  
+        SetPins_ToGoForwards();                                                             // Set the motors to move the mower forwards                                                              // Set the mower to back up
+        delay(100);
+        lcd.clear();
+        lcd.print("Prova avanti...  ");
+        lcd.setCursor(0,1);
+        lcd.print(F("Ricerca Filo    "));
+        delay(100);                                                                  // resets the cycles
+        while (( inside != false) && (Wire_Find_Attempt < 100)) {                               // Move the mower forward until mower is outisde/ON the wire fence or 500 cycles have passed
+          Motor_Action_Go_Slow_Speed();                                                     // Go full speed (in this case forwards)
+          Check_Bumper();                                                                       // Nuova aggiunta
+          UpdateWireSensor();                                                               // Read the wire sensor and see of the mower is now  or outside the wire
+          ADCMan.run();
+          PrintBoundaryWireStatus();                                                        // Prints of the status of the wire sensor readings.
+          Serial.println("");
+          if (WIFI_Enabled == 1) Get_WIFI_Commands();
+          Wire_Find_Attempt = Wire_Find_Attempt + 1;                                                    // Counts how many loops have passed to find the wire.
+          Serial.print("No Wire Count Forwards:");
+          Serial.print(Wire_Find_Attempt);
+          Serial.print("|");
+          }
 
-    Motor_Action_Stop_Motors();
-    Loop_Cycle_Mowing = 0;
-    delay(1000);
-  }
-}
+          if (Wheel_Blocked == 4) {
+            Motor_Action_Stop_Motors();
+            SetPins_ToGoForwards();
+            Motor_Action_Go_Accel();
+            delay(Mower_Reverse_Delay);
+            Motor_Action_Stop_Motors();
+            Bumper = false; 
+            delay(100);
+            }
+         
+      }
+      Motor_Action_Stop_Motors();
+      Loop_Cycle_Mowing = 0;
+      delay(5);
+ }

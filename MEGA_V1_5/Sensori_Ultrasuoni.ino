@@ -8,6 +8,7 @@ void Check_Sonar_Sensors() {
   digitalWrite(trigPin2, LOW);
   delayMicroseconds(5);
   digitalWrite(trigPin3, LOW);
+  delayMicroseconds(5);
 
  // Pings each sonar at a 15ms interval
 
@@ -29,7 +30,7 @@ void Check_Sonar_Sensors() {
 int PingSonarX(int trigPinX, int echoPinX, int distanceX, long durationX, int sonarX, int LCDRow, int LCDColumn) {
   pinMode(trigPinX, OUTPUT);
   pinMode(echoPinX, INPUT);
-  //Sets the trigPin at High state for 10 micro secs sending a sound wave
+  //Imposta il trigPin allo stato alto per 10 micro secondi inviando un'onda sonora
   digitalWrite(trigPinX, HIGH);
   digitalWrite(trigPinX, LOW);
   delayMicroseconds(10);

@@ -323,6 +323,7 @@ void Track_Perimeter_Wire_To_Dock()  {
     Docked_Hits = 0;
   Check_if_Charging();                                                         // Verifica se viene rilevato un amperaggio sul cavo di ricarica
   Check_if_Docked();
+  if (WIFI_Enabled == 1) Get_WIFI_Commands();
 
   Serial.println(F(" Tracking the wire to the Garage: "));                     // Stampa i valori PID utilizzati.
   Serial.print(F("P = "));
@@ -603,51 +604,50 @@ void Track_Perimeter_Wire_To_Dock()  {
  Loop_Cycle_Mowing = 0;
 }
 
- // Avvia un algoritmo per ritrovare il filo dopo averlo perso nel tracciamento
+// Avvia un algoritmo per ritrovare il filo dopo averlo perso nel tracciamento
 void Tracking_Restart_Blocked_Path() {
   Motor_Action_Stop_Motors();
+  Serial.println(F(""));
   Serial.println(F("Possible Blocked Path - Trying to Avoid"));
-
-  // Cicli di reset e delay con controllo comando
-  for (int i = 0; i < 2; i++) {
-    if (Abort_Wire_Find || Mower_Parked == 1) return;
-    Mower_Running = 1;
-    Tracking_Wire = 1;
-    if (WIFI_Enabled == 1) Get_WIFI_Commands();
-    delay(500);
-
-    if (Abort_Wire_Find || Mower_Parked == 1) return;
-    Mower_Running = 0;
-    Tracking_Wire = 0;
-    if (WIFI_Enabled == 1) Get_WIFI_Commands();
-    delay(500);
-  }
-
-  if (Abort_Wire_Find || Mower_Parked == 1) return;
-
+  Serial.println(F(""));
+  Mower_Running = 1;
+  Tracking_Wire = 1;
+  if (WIFI_Enabled == 1) Get_WIFI_Commands();                                           // TX and RX data from NodeMCU
+  delay(1000);
+  Mower_Running = 0;
+  Tracking_Wire = 0;
+  if (WIFI_Enabled == 1) Get_WIFI_Commands();                                           // TX and RX data from NodeMCU
+  delay(1000);
+  Mower_Running = 1;
+  Tracking_Wire = 1;
+  if (WIFI_Enabled == 1) Get_WIFI_Commands();                                           // TX and RX data from NodeMCU
+  delay(1000);
+  Mower_Running = 0;
+  Tracking_Wire = 0;
+  if (WIFI_Enabled == 1) Get_WIFI_Commands();                                           // TX and RX data from NodeMCU
+  delay(1000);
+  
   lcd.clear();
   lcd.print("Perso il Filo.");
   lcd.setCursor(0, 1);
-  lcd.print("Recupero.....");
-  if (WIFI_Enabled == 1) Get_WIFI_Commands();
-
-  // ❌ Se è stato parcheggiato nel frattempo, abbandona la funzione
-  if (Mower_Parked == 1 || Abort_Wire_Find) return;
-
-  Motor_Action_Stop_Motors();
-  delay(1000);
-
-  Tracking_Turn_Left = 0;
-  Tracking_Turn_Right = 0;
-  Mower_Running = 0;
-  Tracking_Wire = 0;
-
-  if (WIFI_Enabled == 1) Get_WIFI_Commands();
-  if (Abort_Wire_Find || Mower_Parked == 1) return;
-
-  if (Compass_Activate == 1) Compass_Turn_Mower_To_Home_Direction();
-  if (Abort_Wire_Find || Mower_Parked == 1) return;
-
-  Manouver_Find_Wire_Track();
-}
-
+  lcd.print("Recupero.....");                                                           // Prints info to LCD display
+  if (WIFI_Enabled == 1) Get_WIFI_Commands();                                           // TX and RX data from NodeMCU
+  if (Mower_Parked != 1) {                                                              // If Pause has been pressed dont carry on.
+    //SetPins_ToGoBackwards();
+    //delay(180);
+    //Motor_Action_Go_Full_Speed();
+    //delay (300);                                                                      //Tempo inversione prima di cercare la direzione di casa con la bussola all'inizio era 1180
+    Motor_Action_Stop_Motors();
+    delay(1000);
+    Tracking_Turn_Left = 0;                                                             // Resets the tracking error counters
+    Tracking_Turn_Right = 0;                                                            // Resets the tracking error counters
+    delay(180);
+    Mower_Running = 0;
+    Tracking_Wire = 0;
+    if (WIFI_Enabled == 1) Get_WIFI_Commands();                                         // TX and RX data from NodeMCU
+    if (Compass_Activate == 1) Compass_Turn_Mower_To_Home_Direction();
+    Manouver_Find_Wire_Track();
+    //Track_Perimeter_Wire_To_Dock();
+    }
+  
+} 

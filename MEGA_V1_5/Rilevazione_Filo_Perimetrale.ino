@@ -55,7 +55,8 @@ void Check_Wire_In_Out() {
       lcd.print("Funzione Speciale");
       delay(2000);
       Outside_Wire_Count = 0;
-      Specials_Find_Wire_Track();                  
+      Specials_Find_Wire_Track();       
+      if (WIFI_Enabled == 1) Get_WIFI_Commands();           
       SetPins_ToGoBackwards();                                          // Imposta il tosaerba per tornare indietro
       Motor_Action_Go_Full_Speed(); 
       delay(300);                                                       //Prima era 700 15/06/22
