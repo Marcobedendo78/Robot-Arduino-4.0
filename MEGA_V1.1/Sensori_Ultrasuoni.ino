@@ -8,6 +8,7 @@ void Check_Sonar_Sensors() {
   digitalWrite(trigPin2, LOW);
   delayMicroseconds(5);
   digitalWrite(trigPin3, LOW);
+  delayMicroseconds(5);
 
  // Pings each sonar at a 15ms interval
 
