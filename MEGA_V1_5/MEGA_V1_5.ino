@@ -454,8 +454,9 @@ DS1302 rtc(kCePin, kIoPin, kSclkPin);
   int  Rain_Total_Hits_Go_Home        = 10; //EEPROM            // Questo sensore ha senso solo in combinazione con una docking station per tosaerba
                                                                 // poiché il tosaerba viene inviato lì per ripararsi dalla pioggia.
   // Settaggi Batteria
-  float Battery_Max               = 16.8;                       // Volt massimi della batteria in Volt. 4S = 16.8V
+  float Battery_Max               = 16.8;                       // Volt massimi della batteria in Volt. 4S = 16.8V (4.2v per cella).
   float Battery_Min               = 15.1;   //EEPROM            // Limite inferiore di carica della batteria prima della ricarica richiesta.
+  float Battery_Nomin             = 14.8;                       // Volt nominali della batteria in Volt. 4S = 14.8V (3.7v per cella).
   byte  Low_Battery_Detected      = 0;                          // Impostato sempre su 0
   byte  Low_Battery_Instances_Chg = 16;     //EEPROM            // Casi di batteria scarica rilevati prima che venga richiesta una ricarica.
 

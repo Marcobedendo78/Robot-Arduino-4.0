@@ -129,9 +129,6 @@ void Execute_MQTT_Command_To_Mower() {
   Motor_Action_Stop_Spin_Blades();
   Motor_Action_Stop_Motors();
 
-  // 🅿️ Parcheggia
-  Manouver_Park_The_Mower();
-
   // 🔄 Cancella qualsiasi stato in corso (ricerca filo, tracciamento, rotazioni ecc.)
   Abort_Wire_Find = 1;
   Tracking_Wire = 0;
@@ -139,6 +136,9 @@ void Execute_MQTT_Command_To_Mower() {
   Mower_Track_To_Charge = 0;
   Loop_Cycle_Mowing = 0;
   Manuel_Mode = 0;
+
+  // 🅿️ Parcheggia
+  Manouver_Park_The_Mower();
 
   // (Opzionale) stampa per debug
   Serial.println(F("Stati tracciamento e ricerca filo annullati."));

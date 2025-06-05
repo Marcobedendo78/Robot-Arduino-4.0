@@ -226,7 +226,6 @@ void Manouver_Turn_Around() {
 }
 
 
-
 void Manouver_Turn_Around_Sonar() {
   Motor_Action_Stop_Motors(); 
   delay(500);
@@ -236,21 +235,38 @@ void Manouver_Turn_Around_Sonar() {
   Motor_Action_Stop_Motors(); 
   delay(500);
      
-  if (distance2 < maxdistancesonar) {                              // Se il Sonar 2 SX legge gira a DX
+  if (distance2 < maxdistancesonar && distance3 < maxdistancesonar) {
+      int scelta = random(0, 2);  // 0 = destra, 1 = sinistra
+
+      if (scelta == 0) {
+        lcd.setCursor(0, 8);
+        lcd.print("Rnd: DX -->   ");
+        SetPins_ToTurnRight(); 
+      } else {
+        lcd.setCursor(0, 8);
+        lcd.print("Rnd: <-- SX   ");
+        SetPins_ToTurnLeft(); 
+      }
+
+      Motor_Action_Turn_Speed ();
+      delay(Mower_Turn_Delay_Min);
+      Motor_Action_Stop_Motors();
+      Check_Sonar_Sensors();
+      delay(1000);
+  }
+
+  else if (distance2 < maxdistancesonar) {  // Solo se il Sonar 2 SX legge gira a DX
       lcd.setCursor(0, 8);
       lcd.print("Gira a DX -->   ");
       SetPins_ToTurnRight(); 
       Motor_Action_Turn_Speed ();
       delay(Mower_Turn_Delay_Min);
+      Motor_Action_Stop_Motors();
+      Check_Sonar_Sensors();
+      delay(1000);
+  }
 
-        Motor_Action_Stop_Motors();
-        Check_Sonar_Sensors();
-        delay(1000);
-      }
-      
-
-
-  if (distance3 < maxdistancesonar) {                              // Se il Sonar 3 DX legge gira a SX
+  else if (distance3 < maxdistancesonar) {  // Solo se il Sonar 3 DX legge gira a SX
       lcd.setCursor(0, 8);
       lcd.print("<-- Gira a SX   ");
       SetPins_ToTurnLeft();
@@ -259,36 +275,23 @@ void Manouver_Turn_Around_Sonar() {
       Motor_Action_Stop_Motors();
       Check_Sonar_Sensors();
       delay(1000);
-      }
-
-
-  if (distance2 < maxdistancesonar && distance3 < maxdistancesonar) {                              // Se il Sonar 2 SX legge gira a DX
-      lcd.setCursor(0, 8);
-      lcd.print("Gira a DX -->   ");
-      SetPins_ToTurnRight(); 
-      Motor_Action_Turn_Speed ();
-      delay(Mower_Turn_Delay_Min);
-
-        Motor_Action_Stop_Motors();
-        Check_Sonar_Sensors();
-        delay(1000);
-      }
-
+  }
 
   Motor_Action_Stop_Motors();
   delay(500);
   Compass_Heading_Locked = 0;
   Sonar_Hit = 0;
   Loop_Cycle_Mowing = 0;
-  // Dopo la rotazione
   Get_GYRO_Reading();        // Per registrare l'orientamento finale
   Gyro_Heading = 0;          // Reset accumulato
   targetHeading = 0;         // Nuova direzione da mantenere
   lastTime = millis();       // ⚠ Importante per evitare errori di tempo al prossimo ciclo
   Check_Sonar_Sensors();
   delay(500);
-  
 }
+
+
+
 
 void Manouver_Manuel_Mode() {
   Mower_Docked          = 0;
