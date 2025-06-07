@@ -126,7 +126,7 @@ void Specials_Find_Wire_Track()  {
             Motor_Action_Stop_Motors();
             SetPins_ToGoBackwards();
             Motor_Action_Go_Accel(Mower_Reverse_Delay);
-            delay(Mower_Reverse_Delay);
+            //delay(Mower_Reverse_Delay);
             Motor_Action_Stop_Motors();
             Bumper = false; 
             delay(100);

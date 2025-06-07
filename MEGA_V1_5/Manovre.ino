@@ -166,7 +166,7 @@ void Manouver_Turn_Around() {
                 SetPins_ToGoBackwards();
                 Motor_Action_Go_Accel(600);                               
                 Motor_Action_Stop_Motors();
-                delay(100);                                  //Prima era 100
+                delay(1000);
                 UpdateWireSensor();
                 Check_Wire_In_Out();
                }

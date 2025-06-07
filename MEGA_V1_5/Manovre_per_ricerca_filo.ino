@@ -106,8 +106,9 @@ void Manouver_Find_Wire_Track()  {
           if (Bumper == true) {                                                                 // Nuova aggiunta
             Motor_Action_Stop_Motors();
             SetPins_ToGoBackwards();
-            Motor_Action_Go_Slow_Speed();
-            delay(Mower_Reverse_Delay);
+            Motor_Action_Go_Accel(Mower_Reverse_Delay);
+            //Motor_Action_Go_Slow_Speed();
+            //delay(Mower_Reverse_Delay);
             Motor_Action_Stop_Motors();
             Compass_Turn_Mower_To_Home_Direction();                                             // Nuova aggiunta 15/06/2024
             Bumper = false; 

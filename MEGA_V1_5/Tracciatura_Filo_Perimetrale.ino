@@ -633,8 +633,10 @@ void Tracking_Restart_Blocked_Path() {
   lcd.print("Recupero.....");                                                           // Prints info to LCD display
   if (WIFI_Enabled == 1) Get_WIFI_Commands();                                           // TX and RX data from NodeMCU
   if (Mower_Parked != 1) {                                                              // If Pause has been pressed dont carry on.
-    //SetPins_ToGoBackwards();
-    //delay(180);
+    if (WIFI_Enabled == 1) Get_WIFI_Commands();                                         // TX and RX data from NodeMCU
+    SetPins_ToGoBackwards();
+    delay(180);
+    Motor_Action_Go_Accel(600);
     //Motor_Action_Go_Full_Speed();
     //delay (300);                                                                      //Tempo inversione prima di cercare la direzione di casa con la bussola all'inizio era 1180
     Motor_Action_Stop_Motors();
@@ -644,10 +646,8 @@ void Tracking_Restart_Blocked_Path() {
     delay(180);
     Mower_Running = 0;
     Tracking_Wire = 0;
-    if (WIFI_Enabled == 1) Get_WIFI_Commands();                                         // TX and RX data from NodeMCU
-    if (Compass_Activate == 1) Compass_Turn_Mower_To_Home_Direction();
+    //if (Compass_Activate == 1) Compass_Turn_Mower_To_Home_Direction();
     Manouver_Find_Wire_Track();
-    //Track_Perimeter_Wire_To_Dock();
     }
   
 } 

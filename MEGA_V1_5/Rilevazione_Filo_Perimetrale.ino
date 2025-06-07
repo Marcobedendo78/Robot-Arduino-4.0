@@ -57,18 +57,20 @@ void Check_Wire_In_Out() {
       Outside_Wire_Count = 0;
       Specials_Find_Wire_Track();       
       if (WIFI_Enabled == 1) Get_WIFI_Commands();           
-      SetPins_ToGoBackwards();                                          // Imposta il tosaerba per tornare indietro
-      Motor_Action_Go_Full_Speed(); 
-      delay(300);                                                       //Prima era 700 15/06/22
+      SetPins_ToGoBackwards();                                            // Imposta il tosaerba per tornare indietro
+      Motor_Action_Go_Accel(800);
+      //Motor_Action_Go_Full_Speed(); 
+      //delay(300);                                                       //Prima era 700 15/06/22
       Motor_Action_Stop_Motors();
-      SetPins_ToTurnRight();                                            // Aggiunta il 18/06/22
-      Motor_Action_Turn_Speed();                                        // Aggiunta il 18/06/22
-      delay(Mower_Turn_Delay_Max);                                      // Aggiunta il 18/06/22
-      Motor_Action_Stop_Motors();                                       // Aggiunta il 18/06/22
-      UpdateWireSensor();                                               // Leggere il sensore del cavo e vedere se il tagliaerba è ora o fuori dal cavo  
+      SetPins_ToTurnRight();                                              // Aggiunta il 18/06/22
+      Motor_Action_Go_Accel(Mower_Turn_Delay_Max);
+      //Motor_Action_Turn_Speed();                                        // Aggiunta il 18/06/22
+      //delay(Mower_Turn_Delay_Max);                                      // Aggiunta il 18/06/22
+      Motor_Action_Stop_Motors();                                         // Aggiunta il 18/06/22
+      UpdateWireSensor();                                                 // Leggere il sensore del cavo e vedere se il tagliaerba è ora o fuori dal cavo  
       PrintBoundaryWireStatus(); 
       delay(1000);
-      UpdateWireSensor();                                               // Leggere il sensore del cavo e vedere se il tagliaerba è ora o fuori dal cavo
+      UpdateWireSensor();                                                 // Leggere il sensore del cavo e vedere se il tagliaerba è ora o fuori dal cavo
       ADCMan.run();
       PrintBoundaryWireStatus(); 
       Wire_Refind_Tries = Wire_Refind_Tries + 1;
