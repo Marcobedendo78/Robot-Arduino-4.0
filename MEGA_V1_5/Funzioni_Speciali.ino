@@ -125,7 +125,7 @@ void Specials_Find_Wire_Track()  {
           if (Wheel_Blocked == 4) {
             Motor_Action_Stop_Motors();
             SetPins_ToGoBackwards();
-            Motor_Action_Go_Accel();
+            Motor_Action_Go_Accel(Mower_Reverse_Delay);
             delay(Mower_Reverse_Delay);
             Motor_Action_Stop_Motors();
             Bumper = false; 
@@ -172,7 +172,7 @@ void Specials_Find_Wire_Track()  {
           if (Wheel_Blocked == 4) {
             Motor_Action_Stop_Motors();
             SetPins_ToGoForwards();
-            Motor_Action_Go_Accel();
+            Motor_Action_Go_Accel(Mower_Reverse_Delay);
             delay(Mower_Reverse_Delay);
             Motor_Action_Stop_Motors();
             Bumper = false; 

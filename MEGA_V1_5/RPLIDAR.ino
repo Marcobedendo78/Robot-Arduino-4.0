@@ -65,7 +65,7 @@ void AvoidObstacle(long minDistance, int angleAtMinDist) {
             Motor_Action_Stop_Motors();
             delay(1000);
             SetPins_ToGoBackwards();
-            Motor_Action_Go_Accel();
+            Motor_Action_Go_Accel(Mower_Reverse_Delay);
             delay(Mower_Reverse_Delay);
 
             if (angleAtMinDist >= 0 && angleAtMinDist <= 180) {

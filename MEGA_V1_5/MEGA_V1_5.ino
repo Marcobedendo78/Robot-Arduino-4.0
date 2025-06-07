@@ -494,9 +494,9 @@ DS1302 rtc(kCePin, kIoPin, kSclkPin);
 
   int Max_Motor_PWM_LH             = 180;
   int Max_Motor_PWM_RH             = 180;
-  int Mower_Turn_Delay_Min         = 400;    //EEPROM            // Min Max Tempo di rotazione del tosaerba dopo l'inversione del filo. 1000 = 1 secondo
-  int Mower_Turn_Delay_Max         = 800;    //EEPROM            // Il software seleziona un tempo di svolta casuale tra questi due valori
-  int Mower_Reverse_Delay          = 400;    //EEPROM            // Valore di retromarcia prima di effettuare una svolta.
+  int Mower_Turn_Delay_Min         = 1300;    //EEPROM           // Min Max Tempo di rotazione del tosaerba dopo l'inversione del filo. 1000 = 1 secondo
+  int Mower_Turn_Delay_Max         = 2600;    //EEPROM           // Il software seleziona un tempo di svolta casuale tra questi due valori
+  int Mower_Reverse_Delay          = 1000;    //EEPROM           // Valore di retromarcia prima di effettuare una svolta.
 
   bool Wheel_Amp_Sensor_ON         = 1;                          // Attiva la funzione di misura degli ampere di assorbimento dei motori delle ruote per rilevare se le ruote sono bloccate.
   float Max_Wheel_Amps             = 2.15;                       // Amperaggio massimo consentito nelle ruote prima che venga chiamato un blocco.
@@ -607,8 +607,8 @@ DS1302 rtc(kCePin, kIoPin, kSclkPin);
 
 
 /************************************************************************************************************/    
-
-
+// 🔧 Prototipo della funzione
+void Motor_Action_Go_Accel(unsigned long durataTotale, float percentualeAccel = 0.4, float percentualeDecel = 0.4);
 
 void setup() {
   Serial.begin(115200);

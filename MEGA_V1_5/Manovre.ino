@@ -140,8 +140,7 @@ void Manouver_Turn_Around() {
 
     // Eseguire il backup del tosaerba
     SetPins_ToGoBackwards();
-    Motor_Action_Go_Accel();
-    delay(Mower_Reverse_Delay);
+    Motor_Action_Go_Accel(Mower_Reverse_Delay);
     Motor_Action_Stop_Motors(); 
     delay(1000);                                                                 //Prima 200
 
@@ -165,8 +164,7 @@ void Manouver_Turn_Around() {
           Check_Wire_In_Out();
               if (Outside_Wire == 1) { 
                 SetPins_ToGoBackwards();
-                Motor_Action_Go_Accel();
-                delay(600);                               
+                Motor_Action_Go_Accel(600);                               
                 Motor_Action_Stop_Motors();
                 delay(100);                                  //Prima era 100
                 UpdateWireSensor();
@@ -184,8 +182,9 @@ void Manouver_Turn_Around() {
  
 
     // Ruota casualmente il tagliaerba su una nuova rotta a seconda del ritardo Min o Delay Max dalle impostazioni
-    Motor_Action_Turn_Speed();
-    delay (random(Mower_Turn_Delay_Min, Mower_Turn_Delay_Max));
+    Motor_Action_Go_Accel(random(Mower_Turn_Delay_Min, Mower_Turn_Delay_Max));
+    //Motor_Action_Turn_Speed();
+    //delay (random(Mower_Turn_Delay_Min, Mower_Turn_Delay_Max));
     //Serial.println("");
     //Serial.println(F("Mower Turned Around"));
     //Serial.println("");
@@ -230,8 +229,7 @@ void Manouver_Turn_Around_Sonar() {
   Motor_Action_Stop_Motors(); 
   delay(500);
   SetPins_ToGoBackwards();
-  Motor_Action_Go_Accel();
-  delay(Mower_Reverse_Delay);
+  Motor_Action_Go_Accel(Mower_Reverse_Delay);
   Motor_Action_Stop_Motors(); 
   delay(500);
      
@@ -248,8 +246,9 @@ void Manouver_Turn_Around_Sonar() {
         SetPins_ToTurnLeft(); 
       }
 
-      Motor_Action_Turn_Speed ();
-      delay(Mower_Turn_Delay_Min);
+      Motor_Action_Go_Accel(Mower_Turn_Delay_Min);
+      //Motor_Action_Turn_Speed ();
+      //delay(Mower_Turn_Delay_Min);
       Motor_Action_Stop_Motors();
       Check_Sonar_Sensors();
       delay(1000);
@@ -258,9 +257,10 @@ void Manouver_Turn_Around_Sonar() {
   else if (distance2 < maxdistancesonar) {  // Solo se il Sonar 2 SX legge gira a DX
       lcd.setCursor(0, 8);
       lcd.print("Gira a DX -->   ");
-      SetPins_ToTurnRight(); 
-      Motor_Action_Turn_Speed ();
-      delay(Mower_Turn_Delay_Min);
+      SetPins_ToTurnRight();
+      Motor_Action_Go_Accel(Mower_Turn_Delay_Min); 
+      //Motor_Action_Turn_Speed ();
+      //delay(Mower_Turn_Delay_Min);
       Motor_Action_Stop_Motors();
       Check_Sonar_Sensors();
       delay(1000);
@@ -270,8 +270,9 @@ void Manouver_Turn_Around_Sonar() {
       lcd.setCursor(0, 8);
       lcd.print("<-- Gira a SX   ");
       SetPins_ToTurnLeft();
-      Motor_Action_Turn_Speed();
-      delay(Mower_Turn_Delay_Min);
+      Motor_Action_Go_Accel(Mower_Turn_Delay_Min);
+      //Motor_Action_Turn_Speed();
+      //delay(Mower_Turn_Delay_Min);
       Motor_Action_Stop_Motors();
       Check_Sonar_Sensors();
       delay(1000);

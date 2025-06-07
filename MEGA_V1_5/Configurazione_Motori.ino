@@ -33,13 +33,51 @@ void Motor_Action_Max_Slow_Speed()     {
       Serial.print(F("Wheel:SLOW|"));
       }
 
-void Motor_Action_Go_Accel()    {                                                     
-      for (int i = 0; i < 255; i ++){
-        analogWrite(ENAPin, i);
-        analogWrite(ENBPin, i);
-        delay(2);                                                    // Prima impostato a 3
-       }
-   }
+//Rampa di Accelerazione/Crocera/Decelerazione per le inversioni
+void Motor_Action_Go_Accel(unsigned long durataTotale, float percentualeAccel = 0.4, float percentualeDecel = 0.4) {
+  // Calcola durata di ciascuna fase
+  unsigned long durataAccel = durataTotale * percentualeAccel;
+  unsigned long durataDecel = durataTotale * percentualeDecel;
+  unsigned long durataCrociera = durataTotale - durataAccel - durataDecel;
+
+  int stepsAccel = max(PWM_Slow_Speed_RH, PWM_Slow_Speed_LH);
+  int stepsDecel = stepsAccel;
+  unsigned long delayPerStepAccel = durataAccel / stepsAccel;
+  unsigned long delayPerStepDecel = durataDecel / stepsDecel;
+
+  // Accelerazione
+  for (int i = 0; i <= stepsAccel; i++) {
+    int currentRH = min(i, PWM_Slow_Speed_RH);
+    int currentLH = min(i, PWM_Slow_Speed_LH);
+    analogWrite(ENAPin, currentRH);
+    analogWrite(ENBPin, currentLH);
+    delay(delayPerStepAccel);
+  }
+
+  // Crociera
+  analogWrite(ENAPin, PWM_Slow_Speed_RH);
+  analogWrite(ENBPin, PWM_Slow_Speed_LH);
+  delay(durataCrociera);
+
+  // Decelerazione
+  for (int i = stepsDecel; i >= 0; i--) {
+    int currentRH = min(i, PWM_Slow_Speed_RH);
+    int currentLH = min(i, PWM_Slow_Speed_LH);
+    analogWrite(ENAPin, currentRH);
+    analogWrite(ENBPin, currentLH);
+    delay(delayPerStepDecel);
+  }
+}
+
+
+//Rampa di accelerazione per le rotazioni
+void Motor_Action_Go_Accel_Turn() {
+ for (int i = 0; i < 255; i++) {
+    analogWrite(ENAPin, i);
+    analogWrite(ENBPin, i);
+    delay(2);  // Durata di ogni step
+  }
+}
 
 void Motor_Action_Go_Track_Speed()     {
       analogWrite(ENAPin, PWM_TrackSpeed_RH);                          // Velocità = 0-255  (255 è la velocità massima). La velocità è impostata nelle impostazioni
@@ -56,17 +94,16 @@ void Motor_Action_GoFullSpeed_Out_Garage()     {
       }
 
 
-// USed to turn the mower at a set speed.
+// Utilizzato per far girare il tosaerba a una velocità impostata. o ridotta o con rampa di accelerazione
 void Motor_Action_Turn_Speed() {
-     if ( (Accel_Speed_Adjustment == 0) ) {
-      analogWrite(ENAPin, (PWM_MaxSpeed_RH - Turn_Adjust) );                                  // Cambia il valore 0 in 10 o 20 per ridurre la velocità
-      analogWrite(ENBPin, (PWM_MaxSpeed_LH - Turn_Adjust) );                                  // Cambia il valore 0 in 10 o 20 per ridurre la velocità 
-        }
-        
-          if ( (Accel_Speed_Adjustment == 1) ) {
-            Motor_Action_Go_Accel(); 
-            }
-      }
+     if (Accel_Speed_Adjustment == 0) {
+       analogWrite(ENAPin, (PWM_MaxSpeed_RH - Turn_Adjust));
+       analogWrite(ENBPin, (PWM_MaxSpeed_LH - Turn_Adjust));
+     }
+     else if (Accel_Speed_Adjustment == 1) {
+       Motor_Action_Go_Accel_Turn();
+     }
+   }
 
 
 void SetPins_ToGoForwards()     {                                     // I pin del driver motore sono impostati per consentire a entrambi i motori di spostarsi in avanti.

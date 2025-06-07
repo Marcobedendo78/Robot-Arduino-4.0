@@ -33,7 +33,7 @@ void Get_Compass_Reading() {
 // Evitare di seguire l'intero cavo per tornare alla docking station docking
 void Compass_Turn_Mower_To_Home_Direction() {
     //Ferma i motori
-    Motor_Action_Stop_Motors;
+    Motor_Action_Stop_Motors();
     if (Abort_Wire_Find || Mower_Parked == 1) return;
     delay(2000);
     Print_LCD_Compass_Home();
@@ -44,24 +44,27 @@ void Compass_Turn_Mower_To_Home_Direction() {
     
     // Invertire leggermente il tosaerba
     SetPins_ToGoBackwards();
-    Motor_Action_Go_Slow_Speed();
-    delay(300);                                                     //Prima era 800 21/06/2022
-    Motor_Action_Stop_Motors;
+    Motor_Action_Go_Accel(Mower_Reverse_Delay);
+    //Motor_Action_Go_Slow_Speed();
+    //delay(300);                                                     //Prima era 800 21/06/2022
+    Motor_Action_Stop_Motors();
     if (Abort_Wire_Find || Mower_Parked == 1) return;
     delay(1000); 
     Get_Compass_Reading();
     SetPins_ToTurnLeft(); 
     // Questo fa girare un po' il tosaerba per garantire che venga letta una lettura reale della bussola (calibrazione).
     SetPins_ToTurnLeft();                                            // Chiama la funzione motore girare a sinistra
-    Motor_Action_Go_Slow_Speed();                                    // Imposta la velocità del movimento di svolta
-    delay(500);    
+    Motor_Action_Go_Accel(500);
+    //Motor_Action_Go_Slow_Speed();                                    // Imposta la velocità del movimento di svolta
+    //delay(500);    
     Motor_Action_Stop_Motors();
     Get_Compass_Reading();
     delay(500);
     SetPins_ToTurnLeft();                                            // Chiama la funzione motore girare a sinistra
     delay(100);                                                      // Prima era 100 27/09/2022
-    Motor_Action_Go_Slow_Speed();                                    // Imposta la velocità del movimento di svolta
-    delay(100);  
+    Motor_Action_Go_Accel(100);
+    //Motor_Action_Go_Slow_Speed();                                    // Imposta la velocità del movimento di svolta
+    //delay(100);  
     Motor_Action_Stop_Motors();
     Get_Compass_Reading();
     delay(500);
@@ -177,12 +180,14 @@ void Turn_To_Compass_Heading() {
 
       
       // Gira il tosaerba e ottieni la lettura della bussola
-      Motor_Action_Go_Slow_Speed();                                     // Imposta la velocità del movimento di rotazione
-      delay(50);                                                       // Prima era 100 23/04/2025 
-      Get_Compass_Reading;
-      Motor_Action_Go_Slow_Speed();                                     // Imposta la velocità del movimento di rotazione
-      delay(50);                                                       // Prima era 100 23/04/2025 
-      Get_Compass_Reading;
+      Motor_Action_Go_Accel(50);
+      //Motor_Action_Go_Slow_Speed();                                     // Imposta la velocità del movimento di rotazione
+      //delay(50);                                                       // Prima era 100 23/04/2025 
+      Get_Compass_Reading();
+      Motor_Action_Go_Accel(50);
+      //Motor_Action_Go_Slow_Speed();                                     // Imposta la velocità del movimento di rotazione
+      //delay(50);                                                       // Prima era 100 23/04/2025 
+      Get_Compass_Reading();
       Motor_Action_Stop_Motors();
       lcd.setCursor(0,1);
       lcd.print(Compass_Heading_Degrees);
@@ -232,7 +237,7 @@ if (Compass_Target >= 180) {
           Bad_Reading = Bad_Reading + 1;
           lcd.setCursor(15,1);
           lcd.print("x");
-          Get_Compass_Reading;
+          Get_Compass_Reading();
           delay(500);                            // Prima era 100 23/04/25
           }
         else {
@@ -263,18 +268,20 @@ if (Compass_Target >= 180) {
           delay(100);
           }
 
-      Motor_Action_Go_Slow_Speed();                                     // Imposta la velocità del movimento di rotazione
-      delay(50);                                                       // Prima era 100 23/04/25 
-      Get_Compass_Reading;
+      Motor_Action_Go_Accel(50);
+      //Motor_Action_Go_Slow_Speed();                                     // Imposta la velocità del movimento di rotazione
+      //delay(50);                                                       // Prima era 100 23/04/25 
+      Get_Compass_Reading();
       delay(100);
-      Motor_Action_Go_Slow_Speed();                                     // Imposta la velocità del movimento di rotazione
-      delay(50);                                                       // Prima era 100 23/04/25 
-      Get_Compass_Reading;
+      Motor_Action_Go_Accel(Mower_Reverse_Delay);
+      //Motor_Action_Go_Slow_Speed();                                     // Imposta la velocità del movimento di rotazione
+      //delay(50);                                                       // Prima era 100 23/04/25 
+      Get_Compass_Reading();
       Motor_Action_Stop_Motors();
       if (WIFI_Enabled == 1) Get_WIFI_Commands();
 
       Attemps_Compass_Turn = Attemps_Compass_Turn + 1;
-      Serial.print("Atempts:");
+      Serial.print("Attempts:");
       Serial.print(Attemps_Compass_Turn);
       Serial.print("|");
       Serial.println("");
@@ -288,17 +295,20 @@ if (Compass_Target >= 180) {
     lcd.print("Riparti");
     delay(1000);
     SetPins_ToTurnLeft();                                               // Richiama la funzione di girare a sinistra
-    Motor_Action_Go_Slow_Speed();                                       // Imposta la velocità del movimento di rotazione
-    delay(1000);                                                         // Prima era 100 23/04/25  
-    Get_Compass_Reading;   
+    Motor_Action_Go_Accel(50);
+    //Motor_Action_Go_Slow_Speed();                                       // Imposta la velocità del movimento di rotazione
+    //delay(100);                                                         // Prima era 100 23/04/25  
+    Get_Compass_Reading();   
     SetPins_ToTurnLeft();                                               // Richiama la funzione di girare a sinistra
-    Motor_Action_Go_Slow_Speed();                                       // Imposta la velocità del movimento di rotazione
-    delay(50);                                                         // Prima era 100 23/04/25  
-    Get_Compass_Reading;   
+    Motor_Action_Go_Accel(50);
+    //Motor_Action_Go_Slow_Speed();                                       // Imposta la velocità del movimento di rotazione
+    //delay(50);                                                         // Prima era 100 23/04/25  
+    Get_Compass_Reading();   
     SetPins_ToTurnLeft();                                               // Richiama la funzione di girare a sinistra
-    Motor_Action_Go_Slow_Speed();                                       // Imposta la velocità del movimento di rotazione
-    delay(50);                                                         // Prima era 100 23/04/25  
-    Get_Compass_Reading;   
+    Motor_Action_Go_Accel(50);
+    //Motor_Action_Go_Slow_Speed();                                       // Imposta la velocità del movimento di rotazione
+    //delay(50);                                                         // Prima era 100 23/04/25  
+    Get_Compass_Reading();   
     Turn_To_Compass_Heading();
     if (WIFI_Enabled == 1) Get_WIFI_Commands();
 }
