@@ -548,25 +548,22 @@ Bumper_Activate_Frnt_EEPROM = EEPROM.read(90);
 
   Kp_EEPROM = EEPROM.read(171);
   if (Kp_EEPROM == 1) {
-    Kp = EEPROM.read(170);
-    Kp = Kp / 100.0;
-    Serial.print(F("Kp PID Setting from EEPROM : "));
+    Kp = EEPROM.read(170);  // Mantieni in centesimi
+    Serial.print(F("Kp PID Setting from EEPROM (centesimi): "));
     Serial.println(Kp);
   }
 
   Ki_EEPROM = EEPROM.read(173);
   if (Ki_EEPROM == 1) {
     Ki = EEPROM.read(172);
-    Ki = Ki / 100.0;
-    Serial.print(F("Ki PID Setting from EEPROM : "));
+    Serial.print(F("Ki PID Setting from EEPROM (centesimi): "));
     Serial.println(Ki);
   }
 
   Kd_EEPROM = EEPROM.read(175);
   if (Kd_EEPROM == 1) {
     Kd = EEPROM.read(174);
-    Kd = Kd / 100.0;
-    Serial.print(F("Kd PID Setting from EEPROM : "));
+    Serial.print(F("Kd PID Setting from EEPROM (centesimi): "));
     Serial.println(Kd);
   }
 
