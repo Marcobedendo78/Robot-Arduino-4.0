@@ -3,14 +3,15 @@
 void Special_Move_Into_Garden_Zone_X() {
     Serial.println(F("start mower code here"));
     Motor_Action_Stop_Motors();                                     // Stop the wheel motors
+    GYRO_Heading_Locked = 0;                                        // Disattiva correzione direzionale
     if (CCW_Tracking_To_Start == 1) SetPins_ToTurnLeft();           // Gira a SX
     if (CW_Tracking_To_Start == 1) SetPins_ToTurnRight();           // Gira a DX
-    Motor_Action_Go_Slow_Speed();                                       
+    Motor_Action_Max_Slow_Speed;                                       
     delay(900);                                                     // Tempo di rotazione (Regolare in modo che ruoti di 90° rispetto il cavo)
     Motor_Action_Stop_Motors();                                     // Ferma i motori
     delay(500);
     SetPins_ToGoForwards();                                         // Pronto per lavorare
-    Motor_Action_Go_Slow_Speed();
+    Motor_Action_Max_Slow_Speed;
     delay(200);
     // Dopo la rotazione
     Get_GYRO_Reading();                                             // Per registrare l'orientamento finale
@@ -18,6 +19,7 @@ void Special_Move_Into_Garden_Zone_X() {
     targetHeading = 0;                                              // Nuova direzione da mantenere
     lastTime = millis();                                            // ⚠ Importante per evitare errori di tempo al prossimo ciclo
     Compass_Heading_Locked = 0;
+    delay(1000);
     }
 
 void Special_Exit_From_Docking_Station() {

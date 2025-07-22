@@ -314,6 +314,7 @@ void Manouver_Manuel_Mode() {
 
 
 void Manouver_Start_Mower() {
+  GYRO_Heading_Locked   = 0;                              // Disattiva correzione direzionale
   Mower_Docked          = 0;
   Mower_Parked          = 0;
   Mower_Running         = 1;
@@ -327,6 +328,12 @@ void Manouver_Start_Mower() {
   Turn_On_Relay();
   Y_Tilt = 0;
   if (WIFI_Enabled == 1) Get_WIFI_Commands();
+  // Dopo la rotazione
+    Get_GYRO_Reading();                                             // Leggi heading attuale
+    targetHeading = Gyro_Heading;                                   // Imposta la direzione attuale come nuovo target
+    pid_integral = 0;                                               // Reset integrale PID
+    pid_lastError = 0;                                              // Reset derivata
+    lastTime = millis();                                            // Reset tempo per deltaTime
   }
 
 void Manouver_Mower_Exit_Dock() {
