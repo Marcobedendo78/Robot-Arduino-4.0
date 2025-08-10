@@ -223,7 +223,10 @@ int targetHeading = 9000;  // 90.00 gradi scalato x100
 // === PID BASSATO SUL GYRO ===
 void Controllo_PID_Gyro(int headingAttuale) {
   static long pid_error = 0, pid_lastError = 0, pid_integral = 0, pid_derivative = 0;
-  const int baseSpeed = 150;
+
+  // Base di velocità
+  int baseSpeed_L = PWM_MaxSpeed_LH;  
+  int baseSpeed_R = PWM_MaxSpeed_RH;
 
   // Errore tra heading attuale e target, tenendo conto del ciclo 0-36000
   pid_error = headingAttuale - targetHeading;
@@ -237,11 +240,12 @@ void Controllo_PID_Gyro(int headingAttuale) {
   // PID intero (Kp,Ki,Kd sono in centesimi, quindi dividiamo il totale per 100)
   long correzione = (Kp * pid_error + Ki * pid_integral + Kd * pid_derivative) / 100;
 
-  int pwmLeft = constrain(baseSpeed - correzione, 0, 255);
-  int pwmRight = constrain(baseSpeed + correzione, 0, 255);
+  // Applica correzione alle due ruote
+  int pwmLeft  = constrain(baseSpeed_L - correzione, 0, PWM_MaxSpeed_LH);
+  int pwmRight = constrain(baseSpeed_R + correzione, 0, PWM_MaxSpeed_RH);
 
-  analogWrite(ENAPin, pwmRight);
-  analogWrite(ENBPin, pwmLeft);
+  analogWrite(ENAPin, pwmRight);         // DX
+  analogWrite(ENBPin, pwmLeft);          // SX
 
   Serial.print(F("PID|H:"));
   Serial.print(headingAttuale / 100.0);  // stampa in gradi reali
