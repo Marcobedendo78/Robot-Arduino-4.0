@@ -59,8 +59,9 @@ Poi va montato il driver del motore sul relativo supporto, preparato il cablaggi
 
 ![Montaggio driver](Mod_brushless_motor/20250620_001805.jpg)
 
-Sul driver va saldato un cavo sul foro contrassegnato come P: PWM che va collegato al pin: RPWM del pcb, ponticellato le piazzole di fianco il condensatore e poi collegato i fili dei sensori di hall del motore ai fili forniti col driver rispettando le fasi A-B-C del motore e 5v e gnd.  
-Va poi collegato il pin della morsettiera contrassegnato come STOP al pin R_EN del pcb, il pin della morsettiera contrassegnato come DIR al pin L_EN del pcb e il pin della morsettiera contrassegnato come GND al GND del pcb che distribuisce le alimentazioni 5v. Nella morsettiera grande (quella con 5 ingressi) va inserito la fasi del motore e l'alimentazione che proviene dallo Step-up.  
+Sul driver va saldato un cavo sul foro contrassegnato come P: PWM che va collegato al pin: L_EN del pcb, ponticellato le piazzole di fianco il condensatore e poi collegato i fili dei sensori di hall del motore ai fili forniti col driver rispettando le fasi A-B-C del motore e 5v e gnd.  
+Va poi collegato il pin della morsettiera contrassegnato come BRAKE al pin R_EN del pcb, il pin della morsettiera contrassegnato come DIR al pin LPWM del pcb e il pin della morsettiera contrassegnato come GND al GND del pcb che distribuisce le alimentazioni 5v. Nella morsettiera grande (quella con 5 ingressi) va inserito la fasi del motore e l'alimentazione che proviene dallo Step-up.
+Ho usato il pin BRAKE al posto dello STOP perché in questo modo come arriva il comando di fermare il motore questo si ferma immediatamente, se si usa il pin STOP il motore gira per inerzia fino a fermarsi.
 
 ![Collegamenti driver](Mod_brushless_motor/20250805_175232.jpg)
 
