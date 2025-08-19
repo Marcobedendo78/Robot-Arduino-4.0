@@ -103,9 +103,9 @@ DS1302 rtc(kCePin, kIoPin, kSclkPin);
   #define L_EN 9        // R_EN
   #define R_EN 10       // L_EN
 #elif USE_DRIVER_ZS_X11H
-  #define RPWM 10       // PWM
-  #define L_EN 9        // STOP
-  #define R_EN 8        // DIR
+  #define RPWM 10       // PWM    (Sul PCB corrisponde a L_EN)
+  #define L_EN 9        // STOP   (Sul PCB corrisponde a R_EN)
+  #define R_EN 8        // DIR    (Sul PCB corrisponde a LPWM)
 #endif
 
 //Relay Switch
