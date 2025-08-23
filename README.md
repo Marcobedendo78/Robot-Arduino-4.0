@@ -203,3 +203,13 @@ E switch per:
 ---
 
 Per suggerimenti o problemi con l'integrazione MQTT, sentiti libero di aprire una issue sul repository!
+
+## 📡 Nuove Modifiche Disponibili!  
+
+🚀 Queste novità sono utilizzabili **a partire dalla variante Mega_1_8** del progetto.  
+📂 Istruzioni dettagliate nel file: **Upgrade_necessaria_da_versione_mega1.8**  
+
+### 🔧 Hardware & Software
+- 🔧 **Doppio sensore filo perimetrale** → tracciatura molto più precisa e stabile  
+- ⚡ **Compatibilità con batterie LiPo 8S** → maggiore autonomia e potenza a disposizione
+
