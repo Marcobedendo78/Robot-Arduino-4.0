@@ -210,13 +210,15 @@ Serial.println("*** Settaggi EEPROM ***");
   }
 
 
-  Minimum_Volt_EEPROM = EEPROM.read(25);
-  if (Minimum_Volt_EEPROM == 1) {
-    Battery_Min = EEPROM.read(26); 
-    Battery_Min = Battery_Min / 10; 
+  Minimum_Volt_EEPROM = (float)EEPROM.read(25);    // flag 0 o 1
+  if ((int)Minimum_Volt_EEPROM == 1) {
+    int valueRead = 0;                             // qui ci sta 0–32767
+    EEPROM.get(100, valueRead);                    // legge due byte da 100–101
+    Battery_Min = valueRead / 10.0;                // converti in volt
     Serial.print(F("Minimum Battery Voltage set from EEPROM : "));
-    Serial.println(Battery_Min);
+    Serial.println(Battery_Min, 1);                // stampa con un decimale
   }
+
 
 
   Compass_Home_EEPROM = EEPROM.read(27);
@@ -649,6 +651,9 @@ void Clear_EERPOM() {
   EEPROM.write(173, 0);   // Resetta Ki
   EEPROM.write(175, 0);   // Resetta Kd
   EEPROM.write(177,0);    // Cancella impostazione PID Return
+  EEPROM.write(100, 0);     // azzera parte bassa Battery_Min (int decimi)
+  EEPROM.write(101, 0);     // azzera parte alta Battery_Min
+
 
   
   Serial.println(F("All EEPROM Settings Cleared"));

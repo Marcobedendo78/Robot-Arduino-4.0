@@ -422,53 +422,68 @@ void Activate_Menu_Option_Sensors() {
        lcd.print("Volt Batteria Min");
        lcd.setCursor(0,1);
        lcd.print("V = ");
-       lcd.print(Battery_Min);
+       lcd.print(Battery_Min, 1);
        Serial.print(F("Battery Minimum Volt = :"));
-       Serial.println(Battery_Min);
+       Serial.println(Battery_Min, 1);
        Menu_Complete_Sensors = false;
+
        while (Menu_Complete_Sensors == false) {
              Read_Membrane_Keys();
              delay(100);
-             //Enter Code Here to Cycle until stop key is pressed.
-             if(!Start_Key_X){
-             Serial.println(F("Settings Saved"));
-             Menu_Complete_Sensors = true;
-             lcd.clear();
-             lcd.setCursor(0,0);
-             lcd.print("V = ");
-             lcd.print(Battery_Min);
-             lcd.setCursor(0,1);
-             lcd.print("SALVATO");
-             delay(2000);
-             lcd.clear();          
-             EEPROM.write(25, 1);
-             EEPROM.write(26, (Battery_Min * 10));   
-             Menu_Mode_Selection = 0;
+
+             // Salva e chiudi (Start premuto)
+             if (!Start_Key_X) {
+               Serial.println(F("Settings Saved"));
+               Menu_Complete_Sensors = true;
+               lcd.clear();
+               lcd.setCursor(0,0);
+               lcd.print("V = ");
+               lcd.print(Battery_Min, 1);
+               lcd.setCursor(0,1);
+               lcd.print("SALVATO");
+               delay(2000);
+               lcd.clear();
+
+               EEPROM.write(25, 1);                                 // flag invariato
+               int valueToSave = (int)(Battery_Min * 10.0 + 0.5);   // es. 33.6 -> 336
+               EEPROM.put(100, valueToSave);                        // salva su 100-101
+
+
+               Menu_Mode_Selection = 0;
              }
+
+             // Incrementa di 0.1V (Plus premuto)
              if (!Plus_Key_X) {
-               Battery_Min = Battery_Min + 0.1;
+               Battery_Min = Battery_Min + 0.1f;
                if (Battery_Min > Battery_Max) Battery_Min = Battery_Max;
+               // forza arrotondamento al decimo per evitare errori float
+               Battery_Min = ((int)(Battery_Min * 10.0 + 0.5)) / 10.0;
+
                lcd.setCursor(0,1);
-               lcd.print("      ");    // Fully clear the number to stop reminants of a previous number from being left behind
-               lcd.setCursor(0,1);
-               lcd.print("V = ");
-               lcd.print(Battery_Min);
-               Serial.print(F("Minimum Battery Voltage = :"));
-               Serial.println(Battery_Min);
-               }
-             if (!Minus_Key_X) {
-               Battery_Min = Battery_Min - 0.1;
-               if (Battery_Min < Battery_Nomin) Battery_Min = Battery_Nomin;
-               lcd.setCursor(0,1);
-               lcd.print("      ");   // Fully clear the number to stop reminants of a previous number from being left behind
+               lcd.print("            "); // pulizia riga
                lcd.setCursor(0,1);
                lcd.print("V = ");
-               lcd.print(Battery_Min);
+               lcd.print(Battery_Min, 1);
                Serial.print(F("Minimum Battery Voltage = :"));
-               Serial.println(Battery_Min);
-               }
-             
+               Serial.println(Battery_Min, 1);
              }
+
+             // Decrementa di 0.1V (Minus premuto)
+             if (!Minus_Key_X) {
+               Battery_Min = Battery_Min - 0.1f;
+               if (Battery_Min < Battery_Nomin) Battery_Min = Battery_Nomin;
+               // forza arrotondamento al decimo
+               Battery_Min = ((int)(Battery_Min * 10.0 + 0.5)) / 10.0;
+
+               lcd.setCursor(0,1);
+               lcd.print("            "); // pulizia riga
+               lcd.setCursor(0,1);
+               lcd.print("V = ");
+               lcd.print(Battery_Min, 1);
+               Serial.print(F("Minimum Battery Voltage = :"));
+               Serial.println(Battery_Min, 1);
+             }
+         }
      }
 
 

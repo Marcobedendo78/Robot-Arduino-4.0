@@ -137,8 +137,21 @@ if (Show_TX_Data == 1) {
  Serial.print(Volts);
  Serial.print(F("|"));
 
- if (Amps <= 0.7) Charging = 0;    //Senza caricabatterie interno era 0.4 
- if (Amps > 0.7) Charging = 4;     //Senza caricabatterie interno era 0.4 
+static unsigned long chargingStartMs = 0;
+static bool chargingState = false;
+
+if (Amps > 0.7) {
+  if (!chargingState) {
+    if (millis() - chargingStartMs > 500) { // 0.5s consecutivi
+      chargingState = true;                 // conferma lo stato di carica
+    }
+  }
+} else {
+  chargingStartMs = millis();               // reset timer
+  chargingState = false;                    // non in carica
+}
+
+Charging = chargingState ? 4 : 0;
 
 
 }

@@ -236,11 +236,13 @@ void Motor_Action_Spin_Blades() {
     delay(20);
     
     #if USE_DRIVER_BTS7960
-      digitalWrite(R_EN, HIGH);  // Enable right
-      digitalWrite(L_EN, HIGH);  // Enable left
+      digitalWrite(R_EN, HIGH);      // Enable right
+      digitalWrite(L_EN, HIGH);      // Enable left
     #elif USE_DRIVER_ZS_X11H
-      digitalWrite(R_EN, HIGH);  // DIR
-      digitalWrite(L_EN, HIGH);  // STOP disattivato (HIGH)
+      digitalWrite(R_EN, HIGH);      // DIR = forward (LOW se vuoi reverse)
+      delay(10);
+      digitalWrite(L_EN, HIGH);      // STOP = HIGH → abilita driver
+      delay(5);
     #endif
 
     delay(20);
@@ -261,11 +263,11 @@ void Motor_Action_Stop_Spin_Blades() {
   delay(20);
 
   #if USE_DRIVER_BTS7960
-    digitalWrite(R_EN, LOW);   // Disabilita
+    digitalWrite(R_EN, LOW);       // Disabilita
     digitalWrite(L_EN, LOW);
   #elif USE_DRIVER_ZS_X11H
-    analogWrite(RPWM, 0);      // Ferma motore
-    digitalWrite(L_EN, LOW);   // STOP attivo (HIGH)
+    analogWrite(RPWM, 0);          // Ferma motore
+    digitalWrite(L_EN, LOW);       // STOP attivo (LOW) → driver disabilitato
   #endif
 
   delay(20);

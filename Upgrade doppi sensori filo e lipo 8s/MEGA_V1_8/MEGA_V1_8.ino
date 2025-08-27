@@ -498,7 +498,7 @@ DS1302 rtc(kCePin, kIoPin, kSclkPin);
                                                                 // NON SCARICARE MAI A 0% se si vuole far durare le batterie e non sforzare lo step-up del motore di taglio che potrebbe far saltare il fusibile.
   float Battery_Nomin             = 14.3;                       // Limite minimo di selezione Volt nominali della batteria nel menu.
   byte  Low_Battery_Detected      = 0;                          // Impostato sempre su 0.
-  byte  Low_Battery_Instances_Chg = 20;     //EEPROM            // Casi di batteria scarica rilevati prima che venga richiesta una ricarica.
+  byte  Low_Battery_Instances_Chg = 10;     //EEPROM            // Casi di batteria scarica rilevati prima che venga richiesta una ricarica.
 
   // Moduli Sonar
   bool Sonar_1_Activate           = 0;      //EEPROM            // Attiva (1) Disattiva (0) Sonar 1 Centrale (NON USARE).
