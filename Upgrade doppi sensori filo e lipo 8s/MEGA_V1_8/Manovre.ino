@@ -14,6 +14,7 @@ void Manouver_Mow_The_Grass() {
 
   // Nuovo run rilevato: il contatore è (tornato) a 0 o minore di 2 → ri-arma la rampa per questo run
   if (Loop_Cycle_Mowing == 0) {
+    CalibraGyroZ();                                                  // Calibra solo all'inizio del run
     ramp_done_this_run = false;                                      // <-- PATCH QUI
   }
 
