@@ -401,6 +401,46 @@ void Track_Perimeter_Wire_To_Dock() {
 
       Serial.print(F(" : MAG_Error=")); Serial.println(MAG_Error);
 
+      // ---- BUMPER DURANTE IL RITORNO ----
+      Check_Bumper();
+      if (Bump_Frnt_LH || Bump_Frnt_RH) {
+        // 1) Ferma subito le ruote per rimanere a contatto coi pad
+        Motor_Action_Stop_Motors();
+
+        // 2) Finestra di assestamento per permettere a Charging di diventare 4
+        const unsigned long CHARGE_SETTLE_MS = 800;  // 0.6–0.8s funziona bene
+        unsigned long t0 = millis();
+
+        bool chargingNow = false;
+        while (millis() - t0 < CHARGE_SETTLE_MS) {
+          // Aggiorna telemetria e stato carica/dock
+          Read_Serial1_Nano();                      // aggiorna RawValueAmp/Volt
+          Calculate_Volt_Amp_Charge();              // aggiorna Amps, Volts, Charging (4/0)
+          Check_if_Charging();                      // setta Charge_Detected_MEGA
+          Check_if_Docked();                        // può settare Mower_Docked = 1
+
+          // Considera veri TUTTI i modi in cui il tuo FW segnala la carica/dock
+          chargingNow =
+              (Charging == 4)                       // stato carica confermato dalla tua logica a 0.5s
+           || (Charge_Detected_MEGA==1)             // conferma “MEGA” derivata da Check_if_Charging()
+           || (Mower_Docked == 1);                  // già riconosciuto docked
+
+           if (chargingNow) break;
+            delay(20); // piccolo respiro
+        } 
+
+        if (chargingNow) {
+          // In carica/docked: ferma e termina il tracking di ritorno (comportamento attuale)
+          Motor_Action_Stop_Motors();
+          break;                                  // esci dal while di ritorno
+        } else {
+          // Solo urto lungo il percorso: gestisci come in uscita
+          Compass_Turn_Mower_To_Home_Direction();
+          Manouver_Find_Wire_Track();
+          continue;                               // salta il resto di questa iterazione per non “sporcare” la manovra
+        }
+      }
+
       Read_Serial1_Nano();
       Check_if_Charging();
       Check_if_Docked();
@@ -504,6 +544,46 @@ void Track_Perimeter_Wire_To_Dock() {
       }
 
       Serial.print(F(" : MAG_Error=")); Serial.println(MAG_Error);
+
+      // ---- BUMPER DURANTE IL RITORNO ----
+      Check_Bumper();
+      if (Bump_Frnt_LH || Bump_Frnt_RH) {
+        // 1) Ferma subito le ruote per rimanere a contatto coi pad
+        Motor_Action_Stop_Motors();
+
+        // 2) Finestra di assestamento per permettere a Charging di diventare 4
+        const unsigned long CHARGE_SETTLE_MS = 800;  // 0.6–0.8s funziona bene
+        unsigned long t0 = millis();
+
+        bool chargingNow = false;
+        while (millis() - t0 < CHARGE_SETTLE_MS) {
+          // Aggiorna telemetria e stato carica/dock
+          Read_Serial1_Nano();                      // aggiorna RawValueAmp/Volt
+          Calculate_Volt_Amp_Charge();              // aggiorna Amps, Volts, Charging (4/0)
+          Check_if_Charging();                      // setta Charge_Detected_MEGA
+          Check_if_Docked();                        // può settare Mower_Docked = 1
+
+          // Considera veri TUTTI i modi in cui il tuo FW segnala la carica/dock
+          chargingNow =
+              (Charging == 4)                       // stato carica confermato dalla tua logica a 0.5s
+           || (Charge_Detected_MEGA==1)             // conferma “MEGA” derivata da Check_if_Charging()
+           || (Mower_Docked == 1);                  // già riconosciuto docked
+
+           if (chargingNow) break;
+            delay(20); // piccolo respiro
+        } 
+
+        if (chargingNow) {
+          // In carica/docked: ferma e termina il tracking di ritorno (comportamento attuale)
+          Motor_Action_Stop_Motors();
+          break;                                  // esci dal while di ritorno
+        } else {
+          // Solo urto lungo il percorso: gestisci come in uscita
+          Compass_Turn_Mower_To_Home_Direction();
+          Manouver_Find_Wire_Track();
+          continue;                               // salta il resto di questa iterazione per non “sporcare” la manovra
+        }
+      }
 
       Read_Serial1_Nano();
       Check_if_Charging();
