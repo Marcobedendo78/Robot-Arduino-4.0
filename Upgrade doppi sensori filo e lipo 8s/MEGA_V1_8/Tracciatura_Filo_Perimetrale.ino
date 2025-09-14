@@ -401,6 +401,10 @@ void Track_Perimeter_Wire_To_Dock() {
 
       Serial.print(F(" : MAG_Error=")); Serial.println(MAG_Error);
 
+      // ---- incremento cicli ----
+      Loop_Cycle_Mowing++;                   
+      if (Loop_Cycle_Mowing == Cycles_Max) Manouver_Cycles_Max();
+
       // ---- BUMPER DURANTE IL RITORNO ----
       Check_Bumper();
       if (Bump_Frnt_LH || Bump_Frnt_RH) {
@@ -452,7 +456,6 @@ void Track_Perimeter_Wire_To_Dock() {
         if (WIFI_Enabled == 1) Get_WIFI_Commands();
         Dock_Cycles = 0;
       }
-      if (Loop_Cycle_Mowing == Cycles_Max) Manouver_Cycles_Max();
       Check_Wheel_Amps();
       if (Wheel_Blocked == 4) {
         Compass_Turn_Mower_To_Home_Direction();
@@ -545,6 +548,10 @@ void Track_Perimeter_Wire_To_Dock() {
 
       Serial.print(F(" : MAG_Error=")); Serial.println(MAG_Error);
 
+      // ---- incremento cicli ----
+      Loop_Cycle_Mowing++;                   
+      if (Loop_Cycle_Mowing == Cycles_Max) Manouver_Cycles_Max();
+
       // ---- BUMPER DURANTE IL RITORNO ----
       Check_Bumper();
       if (Bump_Frnt_LH || Bump_Frnt_RH) {
@@ -596,7 +603,6 @@ void Track_Perimeter_Wire_To_Dock() {
         if (WIFI_Enabled == 1) Get_WIFI_Commands();
         Dock_Cycles = 0;
       }
-      if (Loop_Cycle_Mowing == Cycles_Max) Manouver_Cycles_Max();
       Check_Wheel_Amps();
       if (Wheel_Blocked == 4) {
         Compass_Turn_Mower_To_Home_Direction();

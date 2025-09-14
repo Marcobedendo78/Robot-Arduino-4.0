@@ -13,20 +13,22 @@ void Manouver_Cycles_Max() {
      delay(2000);
 
     if (CCW_Tracking_To_Start == 1) {                              // Uscita dal Garage in senso Antiorario
+        Motor_Action_Stop_Motors();                                // Stop
         SetPins_ToTurnLeft();                                      // Prepara i motori a girare a Sinistra
-        Motor_Action_Turn_Speed();                                 // Gira le ruote
-        delay(700);                                                // Tempo di rotazione 
-        Motor_Action_Stop_Motors;                                  // Stop
+        Motor_Action_Max_Slow_Speed();                             // Gira le ruote
+        delay(800);                                                // Tempo di rotazione 
+        Motor_Action_Stop_Motors();                                // Stop
         delay(2000);
         lcd.clear();
         Manouver_Go_To_Charging_Station_2();
         }
 
     if (CW_Tracking_To_Start == 1) {                               // Uscita dal Garage in senso Orario
+        Motor_Action_Stop_Motors();                                // Stop
         SetPins_ToTurnRight();                                     // Prepara i motori a girare a Destra
-        Motor_Action_Turn_Speed();                                 // Gira le ruote
-        delay(700);                                                // Tempo di rotazione
-        Motor_Action_Stop_Motors;                                  // Stop
+        Motor_Action_Max_Slow_Speed();                             // Gira le ruote
+        delay(800);                                                // Tempo di rotazione
+        Motor_Action_Stop_Motors();                                // Stop
         delay(2000);
         lcd.clear();
         Manouver_Go_To_Charging_Station_2();
