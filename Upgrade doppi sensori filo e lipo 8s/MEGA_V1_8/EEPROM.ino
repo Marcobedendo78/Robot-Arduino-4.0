@@ -493,10 +493,9 @@ Bumper_Activate_Frnt_EEPROM = EEPROM.read(90);
 
   Cycles_Max_EEPROM = EEPROM.read(123);
   if (Cycles_Max_EEPROM == 1) {
-    Cycles_Max = EEPROM.read(124);
-    Cycles_Max = (Cycles_Max * 100);
-    Serial.print(F("Cycles_Max "));
-    Serial.println(Cycles_Max);
+    uint8_t mins = EEPROM.read(124);          // 0..255 minuti
+    Cycles_Max = (unsigned long)mins * 60000UL;
+    Serial.print(F("Cycles_Max ")); Serial.println(Cycles_Max);
   }
 
   if (Boost_Turn == 1){
@@ -651,8 +650,8 @@ void Clear_EERPOM() {
   EEPROM.write(173, 0);   // Resetta Ki
   EEPROM.write(175, 0);   // Resetta Kd
   EEPROM.write(177,0);    // Cancella impostazione PID Return
-  EEPROM.write(100, 0);     // azzera parte bassa Battery_Min (int decimi)
-  EEPROM.write(101, 0);     // azzera parte alta Battery_Min
+  EEPROM.write(100, 0);   // azzera parte bassa Battery_Min (int decimi)
+  EEPROM.write(101, 0);   // azzera parte alta Battery_Min
 
 
   

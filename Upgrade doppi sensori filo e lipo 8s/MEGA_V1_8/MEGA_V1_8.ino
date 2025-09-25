@@ -454,14 +454,15 @@ DS1302 rtc(kCePin, kIoPin, kSclkPin);
   
 
   // Tracciatura Filo
-  int Track_Wire_Zone_1_Cycles    = 500;    //EEPROM            // Zona 1 - Numero di iterazioni eseguite dalla funzione PID prima che il rasaerba esca dalla tracciatura del filo perimetrale.
-  int Track_Wire_Zone_2_Cycles    = 7000;   //EEPROM            // Zone 2 - Numero di iterazioni eseguite dalla funzione PID prima che il rasaerba esca dalla tracciatura del filo perimetrale.
-  int Track_Wire_Zone_3_Cycles    = 10000;  //EEPROM            // Falciatura lungo il filo perimetrale.
-  int Max_Tracking_Turn_Right     = 200;    //EEPROM            // Il numero massimo di comandi di svolta a destra durante il tracciamento del cavo prima che venga richiamata una funzione di ricerca del cavo rinnovata (la ruota gira).
-  int Max_Tracking_Turn_Left      = 200;    //EEPROM            // Se viene raggiunto questo valore, viene richiamata la subroutine di ricerca del filo.
-  int Max_Cycle_Wire_Find         = 600;    //EEPROM            // Numero massimo di cicli di tracciamento in avanti nella ricerca del filo prima che il rasaerba riavvii una rotazione della bussola e la ricerca del filo.
-  int Max_Cycle_Wire_Find_Back    = 50;     //EEPROM            // Numero massimo di cicli di tracciamento all'indietro nella ricerca del filo prima che il rasaerba riavvii una rotazione della bussola e la ricerca del filo.  
-  int Cycles_Max                  = 10000;  //EEPROM            // Valore massimo che il robot segue il filo prima di eseguire la manovra per sganciari da un'aiuola e ripetere la ricerca del filo peimetrale.
+  int Track_Wire_Zone_1_Cycles    = 500;      //EEPROM          // Zona 1 - Numero di iterazioni eseguite dalla funzione PID prima che il rasaerba esca dalla tracciatura del filo perimetrale.
+  int Track_Wire_Zone_2_Cycles    = 7000;     //EEPROM          // Zone 2 - Numero di iterazioni eseguite dalla funzione PID prima che il rasaerba esca dalla tracciatura del filo perimetrale.
+  int Track_Wire_Zone_3_Cycles    = 10000;    //EEPROM          // Falciatura lungo il filo perimetrale.
+  int Max_Tracking_Turn_Right     = 280;      //EEPROM          // Il numero massimo di comandi di svolta a destra durante il tracciamento del cavo prima che venga richiamata una funzione di ricerca del cavo rinnovata (la ruota gira).
+  int Max_Tracking_Turn_Left      = 280;      //EEPROM          // Se viene raggiunto questo valore, viene richiamata la subroutine di ricerca del filo.
+  int Max_Cycle_Wire_Find         = 600;      //EEPROM          // Numero massimo di cicli di tracciamento in avanti nella ricerca del filo prima che il rasaerba riavvii una rotazione della bussola e la ricerca del filo.
+  int Max_Cycle_Wire_Find_Back    = 50;       //EEPROM          // Numero massimo di cicli di tracciamento all'indietro nella ricerca del filo prima che il rasaerba riavvii una rotazione della bussola e la ricerca del filo.  
+  unsigned long Cycles_Max        = 840000UL; //EEPROM          // Valore massimo espresso in tempo in cui il robot segue il filo prima di eseguire la manovra per sganciari da un'aiuola e ripetere la ricerca del filo peimetrale.
+                                                                // 60000 = 1 minuto
 
   // Settaggi Bussola
   bool Compass_Activate               = 1;       //EEPROM       // Accende la bussola (deve essere 1 per attivare ulteriori funzionalità della bussola).
@@ -493,7 +494,7 @@ DS1302 rtc(kCePin, kIoPin, kSclkPin);
                                                                 // poiché il tosaerba viene inviato lì per ripararsi dalla pioggia.
   // Settaggi Batteria
   float Battery_Max               = 33.6;                       // Volt massimi selezionabili della batteria in Volt. 8S = 33.6V (4.2v per cella).
-  float Battery_Min               = 14.6;   //EEPROM            // Limite inferiore di carica della batteria prima della ricarica richiesta.
+  float Battery_Min               = 29.2;   //EEPROM            // Limite inferiore di carica della batteria prima della ricarica richiesta.
                                                                 // 4S = 14.8V (3.7v per cella) circa 50%. Scarica a 20% = 14.5 (3.625V per cella). Scarica a 0% = 13.2 (3.3V per cella).
                                                                 // NON SCARICARE MAI A 0% se si vuole far durare le batterie e non sforzare lo step-up del motore di taglio che potrebbe far saltare il fusibile.
   float Battery_Nomin             = 14.3;                       // Limite minimo di selezione Volt nominali della batteria nel menu.
